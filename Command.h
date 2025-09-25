@@ -3,6 +3,7 @@
 
 using namespace std;
 #include <string>
+#include <vector>
 
 class User;
 class Command;
@@ -25,9 +26,9 @@ class User{
         string name;
         Command** commandQueue;
     public:
-        User(string n, ChatRoom* cr);
+        User(string n="Guest");
         void receive(string message, User fromUser, ChatRoom room);
-        void addCommand(Command command);
+        void addCommand(Command* command);
         void executeAll();
 };
 
@@ -39,6 +40,7 @@ class Command{
 
     public:
         virtual void execute()=0;
+        Command(string m, ChatRoom cr, User fu);
 
 };
 
