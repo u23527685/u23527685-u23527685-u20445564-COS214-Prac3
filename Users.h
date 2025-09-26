@@ -9,6 +9,7 @@
 #define USERS_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -25,96 +26,89 @@ class Command;
  */
 class Users
 {
-protected:                 // Changed to protected so derived classes can access
-    ChatRoom *chatRooms;   ///< Pointer to chat rooms the user is in
-    string name;           ///< User's name
-    Command *commandQueue; ///< Queue of commands to execute
+    protected:                 // Changed to protected so derived classes can access
+        vector<ChatRoom *>chatRooms;   ///< Pointer to chat rooms the user is in
+        string name;           ///< User's name
+        vector<Command *>commandQueue; ///< Queue of commands to execute
 
-public:
-    /**
-     * @brief Default constructor
-     */
-    Users();
+    public:
+        /**
+         * @brief Default constructor
+         */
+        Users();
 
-    /**
-     * @brief Constructor with name
-     * @param userName The name of the user
-     */
-    Users(const string &userName);
+        /**
+         * @brief Constructor with name
+         * @param userName The name of the user
+         */
+        Users(const string &userName);
 
-    /**
-     * @brief Virtual destructor for proper cleanup
-     */
-    virtual ~Users();
+        /**
+         * @brief Virtual destructor for proper cleanup
+         */
+        virtual ~Users();
 
-    /**
-     * @brief Send a message to a chat room (pure virtual)
-     * @param message The message to send
-     * @param room Pointer to the chat room (corrected to pointer)
-     */
-    virtual void send(const string &message, ChatRoom *room) = 0;
+        /**
+         * @brief Send a message to a chat room (pure virtual)
+         * @param message The message to send
+         * @param room Pointer to the chat room (corrected to pointer)
+         */
+        virtual void send(const string &message, ChatRoom *room) = 0;
 
-    /**
-     * @brief Receive a message from a chat room (pure virtual)
-     * @param message The received message
-     * @param fromUser Pointer to the user who sent the message (corrected to pointer)
-     * @param room Pointer to the chat room (corrected to pointer)
-     */
-    virtual void receive(const string &message, Users *fromUser, ChatRoom *room) = 0;
+        /**
+         * @brief Receive a message from a chat room (pure virtual)
+         * @param message The received message
+         * @param fromUser Pointer to the user who sent the message (corrected to pointer)
+         * @param room Pointer to the chat room (corrected to pointer)
+         */
+        virtual void receive(const string &message, Users *fromUser, ChatRoom *room) = 0;
 
-    /**
-     * @brief Add a command to the queue (pure virtual)
-     * @param command Pointer to the command to add (corrected to pointer)
-     */
-    virtual void addCommand(Command *command) = 0;
+        /**
+         * @brief Add a command to the queue (pure virtual)
+         * @param command Pointer to the command to add (corrected to pointer)
+         */
+        virtual void addCommand(Command *command) = 0;
 
-    /**
-     * @brief Execute all queued commands (pure virtual)
-     */
-    virtual void executeAll() = 0;
+        /**
+         * @brief Execute all queued commands (pure virtual)
+         */
+        virtual void executeAll() = 0;
 
-    /**
-     * @brief Get the user's name
-     * @return The user's name
-     */
-    virtual string getName() const;
+        /**
+         * @brief Get the user's name
+         * @return The user's name
+         */
+        virtual string getName() const;
 
-    /**
-     * @brief Add a chat room to user's list
-     * @param room Pointer to the chat room to add
-     */
-    virtual void addChatRoom(ChatRoom *room);
-    /**
-     * @brief Set the mediator (chat room)
-     * @param room Pointer to the chat room mediator
-     */
-    virtual void setChatRoom(ChatRoom* room) {
-        chatRooms = room;
-    }
-    /**
-     * @brief Get the mediator (chat room)
-     * @return Pointer to the chat room mediator
-     */
-    virtual ChatRoom* getChatRoom() const {
-        return chatRooms;
-    }
-    /**
-     * @brief Remove a chat room from user's list
-     * @param room Pointer to the chat room to remove
-     */
-    virtual void removeChatRoom(ChatRoom *room);
+        /**
+         * @brief Add a chat room to user's list
+         * @param room Pointer to the chat room to add
+         */
+        virtual void addChatRoom(ChatRoom *room);
+        /**
+         * @brief Get the mediator (chat room)
+         * @return Pointer to the chat room mediator
+         */
+        /*virtual ChatRoom* getChatRoom() const {
+            return chatRooms;
+        }*/
+        /**
+         * @brief Remove a chat room from user's list
+         * @param room Pointer to the chat room to remove
+         */
+        virtual void removeChatRoom(ChatRoom *room);
 
-    /**
-     * @brief Get user type as string (pure virtual)
-     * @return String representing the user type
-     */
-    virtual string getUserType() const = 0;
+        /**
+         * @brief Get user type as string (pure virtual)
+         * @return String representing the user type
+         */
+        virtual string getUserType() const = 0;
 
-    /**
-     * @brief Get the chat rooms the user is in
-     * @return Pointer to chat rooms
-     */
-    virtual ChatRoom *getChatRooms() const;
+        /**
+         * @brief Get the chat rooms the user is in
+         * @return Pointer to chat rooms
+         */
+        virtual ChatRoom *getChatRooms() const;
 };
 
 #endif // USERS_H

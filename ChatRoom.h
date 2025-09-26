@@ -1,7 +1,7 @@
 /**
  * @file [ChatRoom.h]
  * @brief [Abstract class ChatRoom header file]
- * @author [Marodi Jessica]
+ * @author [Marodi Jessica,Okaile Gaesale]
  * @date [2025-09-24]
  */
 
@@ -10,6 +10,23 @@
 
 #include <string>
 #include <vector>
+#include "UsersIterator.h"
+#include "ChatHistoryIterator.h"
+
+/*
+how to use iterator
+how to use iterator
+
+auto userIt = room->createUserIterator();
+
+for (userIt.first(); !userIt.isDone(); userIt.next()) {
+    Users* u = userIt.current();
+    if (u) {
+        cout << u->getName() << endl;
+    }
+}
+
+*/
 
 using namespace std;
 
@@ -26,32 +43,32 @@ class Users;
  */
 class ChatRoom {
 protected:
-    Users** users;                    ///< [Dynamic array of user pointers]
-    string* chatHistory;              ///< [Dynamic array of chat messages]
-    int userCount;                    ///< [Number of users in the room]
-    int historyCount;                 ///< [Number of messages in history]
-    int maxUsers;                     ///< [Maximum capacity of users array]
-    int maxHistory;                   ///< [Maximum capacity of history array]
+    vector<Users*> users;                    ///< [Dynamic array of user pointers]
+    vector<string*> chatHistory;              ///< [Dynamic array of chat messages] 
 
 private:
-    /**
-     * @brief [Resize the users array when capacity is exceeded]
-     */
-    void resizeUsersArray();
     
     /**
-     * @brief [Resize the chat history array when capacity is exceeded]
-     */
-    void resizeHistoryArray();
-    
-    /**
-     * @brief [Find user index in the users array]
+     * @brief [Find user index in the users vector]
      * @param user [Pointer to the user to find]
      * @return [Index of user, or -1 if not found]
      */
     int findUserIndex(Users* user) const;
 
 public:
+    /**
+     * @brief [factory function for users iterator]
+     */
+    UsersIterator createUserIterator() const {
+        return UsersIterator(users);
+    }
+
+    /**
+     * @brief [factory function for chat history iterator]
+     */
+    ChatHistoryIterator createChatHistoryIterator() const {
+        return ChatHistoryIterator(chatHistory);
+    }
     /**
      * @brief [Constructor, initializes empty chat room]
      */
@@ -116,7 +133,7 @@ public:
      * @brief [Get chat history (for viewing/admin purposes)]
      * @return [Vector containing all chat messages]
      */
-    vector<string> getChatHistory() const;
+    vector<string*> getChatHistory() const;
     
     /**
      * @brief [Check if a user is in the room]

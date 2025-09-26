@@ -6,10 +6,11 @@ using namespace std;
 template<typename T>
 class Iterator{
     public:
-        virtual T first()=0;
-        virtual T next()=0;
-        virtual T current();
-        bool isDone(){return next != NULL};
+        virtual ~Iterator() {}
+        virtual void first() = 0;         ///< Move to first element
+        virtual void next() = 0;          ///< Move to next element
+        virtual bool isDone() const = 0;  ///< Check if iteration is complete
+        virtual T current() const = 0;
 };
 
 #endif

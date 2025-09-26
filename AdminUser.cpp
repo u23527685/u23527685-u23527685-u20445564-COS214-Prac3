@@ -44,14 +44,14 @@ void AdminUser::send(const string &message, ChatRoom *room)
     }
 
     // Enhanced admin message formatting
-    string adminMessage = "[ ADMIN] " + message;
+    /*string adminMessage = "[ ADMIN] " + message;
     cout << "Admin " << name << " broadcasts to " << room->getRoomName()
               << " (" << room->getUsers().size() << " users): " << adminMessage <<endl;
 
     room->sendMessage(&adminMessage, this);
 
     string timestampedMessage = "[" + getCurrentTime() + "] " + adminMessage;
-    room->saveMessage(timestampedMessage, this);
+    room->saveMessage(timestampedMessage, this);*/
 
    cout << "Admin message delivered successfully" << endl;
 }
@@ -64,9 +64,9 @@ void AdminUser::receive(const string &message, Users *fromUser, ChatRoom *room)
         return;
     }
 
-    cout << "[" << room->getRoomName() << "] Admin " << name
+    /*cout << "[" << room->getRoomName() << "] Admin " << name
               << " monitoring message from " << fromUser->getName()
-              << " (" << fromUser->getUserType() << "): " << message << endl;
+              << " (" << fromUser->getUserType() << "): " << message << endl;*/
 
     processAdminAlerts(message, fromUser, room);
     performContentModeration(message, fromUser, room);
@@ -74,7 +74,7 @@ void AdminUser::receive(const string &message, Users *fromUser, ChatRoom *room)
 
     string logEntry = "[ADMIN LOG] Processed message from " + fromUser->getName() + ": " +
                       (message.length() > 50 ? message.substr(0, 47) + "..." : message);
-    room->saveMessage(logEntry, this);
+    //room->saveMessage(logEntry, *this);
 }
 
 void AdminUser::addCommand(Command *command)
@@ -85,14 +85,14 @@ void AdminUser::addCommand(Command *command)
         return;
     }
 
-    commandQueue = command;
+    //commandQueue = command;
     cout << " Admin " << name << " queued HIGH PRIORITY administrative command" << endl;
     cout << "Command will be executed with elevated privileges" << endl;
 }
 
 void AdminUser::executeAll()
 {
-    if (commandQueue == nullptr)
+    /*if (commandQueue == nullptr)
     {
         cout << " No administrative commands pending for Admin " << name << endl;
         return;
@@ -114,7 +114,7 @@ void AdminUser::executeAll()
 
     // Clear the queue after execution
     commandQueue = nullptr;
-    cout << "Command queue cleared - ready for next administrative task" << endl;
+    cout << "Command queue cleared - ready for next administrative task" << endl;*/
 }
 
 string AdminUser::getUserType() const
@@ -136,7 +136,7 @@ void AdminUser::moderateMessage(const string &message, ChatRoom *room)
         return;
     }
 
-    cout << "Admin " << name << " initiating content moderation in " << room->getRoomName() << endl;
+    //cout << "Admin " << name << " initiating content moderation in " << room->getRoomName() << endl;
     cout << "Analyzing message: \"" << (message.length() > 30 ? message.substr(0, 27) + "..." : message) << "\"" << endl;
 
     bool actionTaken = false;
@@ -146,7 +146,7 @@ void AdminUser::moderateMessage(const string &message, ChatRoom *room)
     {
         cout << "VIOLATION: Message exceeds length limit (200 chars)" << endl;
         string warningMsg = "[] ADMIN NOTICE] Please keep messages under 200 characters for better readability.";
-        room->sendMessage(&warningMsg, this);
+        //room->sendMessage(&warningMsg, this);
         actionTaken = true;
     }
 
@@ -160,7 +160,7 @@ void AdminUser::moderateMessage(const string &message, ChatRoom *room)
     {
         cout << "SPAM DETECTED: Potential commercial/spam content identified" << endl;
         string spamWarning = "[ADMIN WARNING] Spam content detected. Please follow community guidelines or face removal.";
-        room->sendMessage(&spamWarning, this);
+        //room->sendMessage(&spamWarning, this);
         actionTaken = true;
     }
 
@@ -170,14 +170,14 @@ void AdminUser::moderateMessage(const string &message, ChatRoom *room)
     {
         cout << "CONTENT WARNING: Potentially inappropriate content flagged" << endl;
         string contentWarning = "[ADMIN] Please maintain respectful communication in our community.";
-        room->sendMessage(&contentWarning, this);
+        //room->sendMessage(&contentWarning, this);
         actionTaken = true;
     }
 
     // Log all moderation activities
     string moderationResult = actionTaken ? "ACTION TAKEN" : "NO VIOLATIONS FOUND";
     string moderationLog = "[MODERATION] Admin " + name + " reviewed content - Result: " + moderationResult;
-    room->saveMessage(moderationLog, this);
+    //room->saveMessage(moderationLog, this);
 
     cout << "Content moderation completed - " << moderationResult << endl;
 }
@@ -197,38 +197,38 @@ void AdminUser::removeUser(Users *user, ChatRoom *room)
     }
 
     cout << "Admin " << name << " initiating user removal process..." << endl;
-    cout << "Target: " << user->getName() << " (" << user->getUserType() << ") from " << room->getRoomName() << endl;
+    //cout << "Target: " << user->getName() << " (" << user->getUserType() << ") from " << room->getRoomName() << endl;
 
     // Confirm user is in the room first
-    const auto &roomUsers = room->getUsers();
+    //const auto &roomUsers = room->getUsers();
     bool userFound = false;
-    for (const auto &roomUser : roomUsers)
+    /*for (const auto &roomUser : roomUsers)
     {
         if (roomUser == user)
         {
             userFound = true;
             break;
         }
-    }
+    }*/
 
     if (!userFound)
     {
-        cout << "User " << user->getName() << " is not in room " << room->getRoomName() << endl;
+        //cout << "User " << user->getName() << " is not in room " << room->getRoomName() << endl;
         return;
     }
 
     // Perform removal
-    room->removeUser(user);
+    //room->removeUser(user);
 
     // Send notification to remaining users
-    string removeMsg = "[ ADMIN ACTION] User " + user->getName() +
+    /*string removeMsg = "[ ADMIN ACTION] User " + user->getName() +
                        " has been removed from " + room->getRoomName() + " by Admin " + name;
-    room->sendMessage(&removeMsg, this);
+    room->sendMessage(&removeMsg, this);*/
 
     // Log the administrative action
-    string removeLog = "[ADMIN LOG] " + name + " removed user " + user->getName() +
+    /*string removeLog = "[ADMIN LOG] " + name + " removed user " + user->getName() +
                        " from " + room->getRoomName() + " at " + getCurrentTime();
-    room->saveMessage(removeLog, this);
+    room->saveMessage(removeLog, this);*/
 
     cout << " User removal completed successfully" << endl;
     cout << " Administrative action logged for record keeping" << endl;
@@ -248,7 +248,7 @@ void AdminUser::makeAnnouncement(const string &announcement, ChatRoom *room)
         return;
     }
 
-    string formattedAnnouncement = "[ADMIN ANNOUNCEMENT] " + announcement;
+    /*string formattedAnnouncement = "[ADMIN ANNOUNCEMENT] " + announcement;
     cout << "\n"
               << string(50, '=') << endl;
     cout << "Admin " << name << " making OFFICIAL ANNOUNCEMENT" << endl;
@@ -267,13 +267,14 @@ void AdminUser::makeAnnouncement(const string &announcement, ChatRoom *room)
 
     cout << "Official announcement delivered by Admin " << name << endl;
     cout << "Announcement logged in room history" << endl;
+    */
 }
 
 // Private helper methods for enhanced functionality
 
 void AdminUser::processAdminAlerts(const string &message, Users *fromUser, ChatRoom *room)
 {
-    string lowerMessage = message;
+    /*string lowerMessage = message;
     transform(lowerMessage.begin(), lowerMessage.end(), lowerMessage.begin(), ::tolower);
 
     // Priority alerts that require immediate admin attention
@@ -290,7 +291,7 @@ void AdminUser::processAdminAlerts(const string &message, Users *fromUser, ChatR
         cout << " URGENT ALERT: Emergency assistance requested!" << endl;
         string emergencyResponse = "[ ADMIN PRIORITY] Emergency assistance acknowledged. Responding immediately.";
         room->sendMessage(&emergencyResponse, this);
-    }
+    }*/
 }
 
 void AdminUser::performContentModeration(const string &message, Users *fromUser, ChatRoom *room)
@@ -312,7 +313,7 @@ void AdminUser::performContentModeration(const string &message, Users *fromUser,
 }
 
 void AdminUser::handleUserRequests(const string &message, Users *fromUser, ChatRoom *room)
-{
+{/*
     string lowerMessage = message;
     transform(lowerMessage.begin(), lowerMessage.end(), lowerMessage.begin(), ::tolower);
 
@@ -330,7 +331,7 @@ void AdminUser::handleUserRequests(const string &message, Users *fromUser, ChatR
     {
         string rulesMsg = "[ADMIN INFO] Community Guidelines: Be respectful, no spam, keep messages appropriate. Thank you!";
         room->sendMessage(&rulesMsg, this);
-    }
+    }*/
 }
 
 string AdminUser::getCurrentTime() const

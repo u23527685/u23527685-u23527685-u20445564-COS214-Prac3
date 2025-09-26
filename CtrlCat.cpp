@@ -9,23 +9,21 @@
 #include <iostream>
 
 CtrlCat::CtrlCat() {
-    users = nullptr;
-    chatHistory = nullptr;
     cout << "CtrlCat room created! Welcome to the feline programming paradise!" << endl;
 }
 
 CtrlCat::~CtrlCat() {
-    if (users != nullptr) {
+    /*if (users != nullptr) {
         users = nullptr;
     }
     if (chatHistory != nullptr) {
         delete[] chatHistory;
         chatHistory = nullptr;
-    }
+    }*/
 }
 
 void CtrlCat::registerUser(Users* user) {
-    if (user != nullptr) {
+    /*if (user != nullptr) {
         if (users == nullptr) {
             users = user;
         }
@@ -34,7 +32,7 @@ void CtrlCat::registerUser(Users* user) {
                  << ") has joined CtrlCat!" << endl;
         
         user->addChatRoom(this);
-    }
+    }*/
 }
 
 void CtrlCat::sendMessage(string* message, Users* fromUser) {
@@ -42,12 +40,12 @@ void CtrlCat::sendMessage(string* message, Users* fromUser) {
         cout << "[CtrlCat] " << fromUser->getName() 
                  << " says: " << *message << endl;
         
-        saveMessage(*message, fromUser);
+        //saveMessage(*message, fromUser);
     }
 }
 
 void CtrlCat::removeUser(Users* user) {
-    if (user != nullptr) {
+    /*if (user != nullptr) {
         cout << user->getName() << " has left CtrlCat!" << endl;
         
         user->removeChatRoom(this);
@@ -55,7 +53,7 @@ void CtrlCat::removeUser(Users* user) {
         if (users == user) {
             users = nullptr;
         }
-    }
+    }*/
 }
 
 string CtrlCat::getRoomName() const {
@@ -63,11 +61,11 @@ string CtrlCat::getRoomName() const {
 }
 
 void CtrlCat::saveMessage(const string& message, Users* fromUser) {
-    if (fromUser != nullptr) {
+    /*if (fromUser != nullptr) {
         string formattedMessage = "[CtrlCat] " + fromUser->getName() + ": " + message;
         
         if (chatHistory == nullptr) {
             chatHistory = new string(formattedMessage);
         }
-    }
+    }*/
 }

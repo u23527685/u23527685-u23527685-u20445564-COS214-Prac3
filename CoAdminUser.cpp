@@ -11,31 +11,25 @@
 #include <iostream>
 
 CoAdminUser::CoAdminUser() {
-    chatRooms = nullptr;
+    
     name = "Default CoAdmin";
-    commandQueue = nullptr;
+    
     cout << "CoAdminUser created: " << name << endl;
 }
 
 CoAdminUser::CoAdminUser(const string& userName) {
-    chatRooms = nullptr;
+    
     name = userName;
-    commandQueue = nullptr;
+    
     cout << "CoAdminUser created: " << name << endl;
 }
 
 CoAdminUser::~CoAdminUser() {
-    if (commandQueue != nullptr) {
-        commandQueue = nullptr;
-    }
-    
-    chatRooms = nullptr;
-    
     cout << "CoAdminUser " << name << " destroyed" << endl;
 }
 
 void CoAdminUser::send(const string& message, ChatRoom* room) {
-    if (room != nullptr) {
+    /*if (room != nullptr) {
         string coAdminMessage = "[CO-ADMIN] " + message;
         cout << "Co-Admin " << name << " sends to " << room->getRoomName() 
                  << ": " << coAdminMessage << endl;
@@ -45,11 +39,11 @@ void CoAdminUser::send(const string& message, ChatRoom* room) {
         room->saveMessage(coAdminMessage, this);
     } else {
         cout << "Cannot send message - room is null!" << endl;
-    }
+    }*/
 }
 
 void CoAdminUser::receive(const string& message, Users* fromUser, ChatRoom* room) {
-    if (fromUser != nullptr && room != nullptr) {
+    /*if (fromUser != nullptr && room != nullptr) {
         cout << "[" << room->getRoomName() << "] Co-Admin " << name 
                  << " received from " << fromUser->getName() << ": " << message << endl;
         
@@ -58,30 +52,30 @@ void CoAdminUser::receive(const string& message, Users* fromUser, ChatRoom* room
         }
     } else {
         cout << "Cannot receive message - invalid parameters!" << endl;
-    }
+    }*/
 }
 
 void CoAdminUser::addCommand(Command* command) {
-    if (command != nullptr) {
+    /*if (command != nullptr) {
         commandQueue = command;
         cout << "Co-Admin " << name << " added command to queue" << endl;
     } else {
         cout << "Cannot add null command!" << endl;
-    }
+    }*/
 }
 
 void CoAdminUser::executeAll() {
-    if (commandQueue != nullptr) {
+    /*if (commandQueue != nullptr) {
         cout << "Co-Admin " << name << " executing all queued commands..." << endl;
         
         commandQueue->execute();
         
-        commandQueue = nullptr;
+        
         
         cout << "All commands executed by Co-Admin " << name << endl;
     } else {
         cout << "No commands to execute for Co-Admin " << name << endl;
-    }
+    }*/
 }
 
 string CoAdminUser::getUserType() const {
@@ -93,7 +87,7 @@ string CoAdminUser::getName() const {
 }
 
 void CoAdminUser::assistModeration(const string& message, ChatRoom* room) {
-    if (room != nullptr) {
+    /*if (room != nullptr) {
         cout << "Co-Admin " << name << " is assisting with moderation of message: \"" 
                  << message << "\" in " << room->getRoomName() << endl;
         
@@ -109,5 +103,5 @@ void CoAdminUser::assistModeration(const string& message, ChatRoom* room) {
         room->saveMessage(moderationLog, this);
     } else {
         cout << "Cannot assist moderation - room is null!" << endl;
-    }
+    }*/
 }
