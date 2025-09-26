@@ -7,6 +7,8 @@
 #include "NormalUser.h"
 #include "ChatRoom.h"
 #include "Command.h"
+#include "SaveMessageCommand.h"
+#include "SendMessageCommand.h"
 #include <iostream>
 
 using namespace std;
@@ -31,8 +33,10 @@ void NormalUser::send(const string& message, ChatRoom* room) {
              << ": " << message << endl;
 
         string userMessage = message;
-        room->sendMessage(&userMessage, this);
-        room->saveMessage(userMessage, this);
+        SaveMessageCommand savemessage(userMessage,room,this);
+        SendMessageCommand sendmessage(userMessage,room,this);
+        sendmessage.execute();
+        savemessage.execute();
     } else {
         cout << "Cannot send message - room is null!" << endl;
     }
