@@ -1,7 +1,7 @@
 /**
  * @file [CoAdminUser.cpp]
  * @brief [Implementation of CoAdminUser class]
- * @author [Marodi Jessica]
+ * @author [Marodi Jessica, Okaile Gaesale]
  * @date 2025-09-24
  */
 

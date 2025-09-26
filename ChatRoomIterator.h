@@ -2,8 +2,9 @@
 #define CHATROOMITERATOR_H
 
 #include "Iterator.h"
-#include "ChatRoom.h"
 #include <vector>
+
+class ChatRoom;
 
 class ChatRoomIterator : public Iterator<ChatRoom*> {
 private:
@@ -24,6 +25,8 @@ public:
         if (!isDone()) return rooms[index];
         return nullptr;
     }
+
+    size_t getIndex()const override;
 };
 
 #endif // CHATROOMITERATOR_H

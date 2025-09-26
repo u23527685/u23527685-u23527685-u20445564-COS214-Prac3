@@ -16,16 +16,14 @@ public:
     ChatHistoryIterator(const vector<string*>& historyList) 
         : history(historyList), index(0) {}
 
-    void first() override { index = 0; }
+    void first() override;
 
-    void next() override { if (index < history.size()) ++index; }
+    void next() override;
 
-    bool isDone() const override { return index >= history.size(); }
+    bool isDone() const override;
 
-    string* current() const override {
-        if (!isDone()) return history[index];
-        return nullptr;
-    }
+    string* current() const override ;
+    size_t getIndex() const override;
 };
 
 #endif // CHATHISTORYITERATOR_H

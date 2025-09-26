@@ -3,7 +3,6 @@
 
 #include "Iterator.h"
 #include "Users.h"
-#include "ChatRoom.h"
 #include <vector>
 
 class UsersIterator : public Iterator<Users*> {
@@ -23,7 +22,7 @@ public:
 
     Users* current() const override ;
     
-    size_t getIndex();
+    size_t getIndex()const override;
 };
 
 #endif // USERITERATOR_H

@@ -217,6 +217,10 @@ void ChatRoom::broadcastSystemMessage(const string& message) {
     chatHistory.push_back(&formattedSystemMessage);
 }
 
+string ChatRoom::getRoomNameFunc(){
+    return getRoomName();
+}
+
 // Private helper methods
 
 int ChatRoom::findUserIndex(Users* user) const {

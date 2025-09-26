@@ -11,6 +11,7 @@ class Iterator{
         virtual void next() = 0;          ///< Move to next element
         virtual bool isDone() const = 0;  ///< Check if iteration is complete
         virtual T current() const = 0;
+        virtual  size_t getIndex()const =0;
 };
 
 #endif

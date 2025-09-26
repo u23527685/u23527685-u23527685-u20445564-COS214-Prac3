@@ -1,5 +1,5 @@
 using namespace std;
-#include "UsersIterator.h"
+#include "UserIterator.h"
 
 void UsersIterator::first(){ index = 0; }
 
@@ -12,6 +12,6 @@ Users* UsersIterator::current()const {
     return nullptr;
 }
 
-size_t UsersIterator::getIndex(){
+size_t UsersIterator::getIndex()const{
     return index;
 }

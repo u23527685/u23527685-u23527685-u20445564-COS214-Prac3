@@ -10,11 +10,15 @@
 
 #include <string>
 #include <vector>
+#include "ChatRoomIterator.h"
+#include "CommandIterator.h"
+#include "ChatRoom.h"
+
+class ChatRoomIterator;
 
 using namespace std;
 
 // Forward declarations to avoid circular dependencies
-class ChatRoom;
 class Command;
 
 /**
@@ -47,6 +51,16 @@ class Users
          * @brief Virtual destructor for proper cleanup
          */
         virtual ~Users();
+
+        /**
+         * @brief factory method for chatroomiterator
+         */
+        ChatRoomIterator createIterator()const;
+
+        /**
+         * @brief factory method for commandIterator
+         */
+        CommandIterator createcommandIterator()const;
 
         /**
          * @brief Send a message to a chat room (pure virtual)

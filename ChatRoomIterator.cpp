@@ -11,3 +11,7 @@ ChatRoom* ChatRoomIterator::current()const {
     if (!isDone()) return rooms[index];
     return nullptr;
 }
+
+size_t ChatRoomIterator::getIndex()const{
+    return index;
+}

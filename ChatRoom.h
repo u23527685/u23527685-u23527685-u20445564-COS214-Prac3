@@ -10,23 +10,9 @@
 
 #include <string>
 #include <vector>
-#include "UsersIterator.h"
+
 #include "ChatHistoryIterator.h"
-
-/*
-how to use iterator
-how to use iterator
-
-auto userIt = room->createUserIterator();
-
-for (userIt.first(); !userIt.isDone(); userIt.next()) {
-    Users* u = userIt.current();
-    if (u) {
-        cout << u->getName() << endl;
-    }
-}
-
-*/
+#include "UserIterator.h"
 
 using namespace std;
 
@@ -110,6 +96,12 @@ public:
      * @return [The name of the chat room]
      */
     virtual string getRoomName() const = 0;
+
+    /**
+     * @brief [calls the getroomname function]
+     * @return [The name of the chat room]
+     */
+    string getRoomNameFunc();
     
     /**
      * @brief [Get the current number of users in the room]

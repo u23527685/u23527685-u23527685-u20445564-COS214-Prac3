@@ -6,8 +6,8 @@
  */
 #ifndef CTRLCAT_H
 #define CTRLCAT_H
-#include "Users.h"
 #include "ChatRoom.h"
+class Users;
 /**
  * @class CtrlCat
  * @brief Concrete mediator for the CtrlCat themed chat room

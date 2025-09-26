@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Command::Command(string m, ChatRoom cr, User fu){
+Command::Command(string m, ChatRoom* cr, Users* fu){
     message=m;
     room=cr;
     fromUser=fu;
