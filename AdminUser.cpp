@@ -50,8 +50,8 @@ void AdminUser::send(const string &message, ChatRoom *room)
     cout << "Admin " << name << " sends message to " << room->getRoomName()<<endl;
     string timestampedMessage = "[" + getCurrentTime() + "] " + adminMessage;
 
-    SaveMessageCommand savemessage(message,room,this);
-    SendMessageCommand sendmessage(message,room,this);
+    SaveMessageCommand savemessage(timestampedMessage,room,this);
+    SendMessageCommand sendmessage(timestampedMessage,room,this);
     sendmessage.execute();
     savemessage.execute();
 
