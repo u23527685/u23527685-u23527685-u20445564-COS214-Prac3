@@ -8,6 +8,8 @@
 #include "CoAdminUser.h"
 #include "ChatRoom.h"
 #include "Command.h"
+#include "SaveMessageCommand.h"
+#include "SendMessageCommand.h"
 #include <iostream>
 
 CoAdminUser::CoAdminUser() {
@@ -34,9 +36,10 @@ void CoAdminUser::send(const string& message, ChatRoom* room) {
         cout << "Co-Admin " << name << " sends to " << room->getRoomName() 
                  << ": " << coAdminMessage << endl;
         
-        room->sendMessage(&coAdminMessage, this);
-        
-        room->saveMessage(coAdminMessage, this);
+        SaveMessageCommand savemessage(coAdminMessage,room,this);
+        SendMessageCommand sendmessage(coAdminMessage,room,this);
+        sendmessage.execute();
+        savemessage.execute();
     } else {
         cout << "Cannot send message - room is null!" << endl;
     }
@@ -49,6 +52,7 @@ void CoAdminUser::receive(const string& message, Users* fromUser, ChatRoom* room
         
         if (message.find("[URGENT]") != string::npos) {
             cout << "Co-Admin " << name << " flagged urgent message for review" << endl;
+            assistModeration(message,room);
         }
     } else {
         cout << "Cannot receive message - invalid parameters!" << endl;
@@ -102,7 +106,7 @@ void CoAdminUser::assistModeration(const string& message, ChatRoom* room) {
         }
         
         string moderationLog = "Co-Admin moderation by " + name + " on message: " + message;
-        room->saveMessage(moderationLog, this);
+        send(moderationLog,room);
     } else {
         cout << "Cannot assist moderation - room is null!" << endl;
     }
