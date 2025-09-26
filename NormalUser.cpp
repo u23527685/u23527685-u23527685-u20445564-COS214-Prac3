@@ -26,8 +26,7 @@ NormalUser::~NormalUser() {
 }
 
 void NormalUser::send(const string& message, ChatRoom* room) {
-    //iterator
-    /*if (room != nullptr) {
+    if (room != nullptr) {
         cout << name << " sends to " << room->getRoomName() 
              << ": " << message << endl;
 
@@ -36,12 +35,11 @@ void NormalUser::send(const string& message, ChatRoom* room) {
         room->saveMessage(userMessage, this);
     } else {
         cout << "Cannot send message - room is null!" << endl;
-    }*/
+    }
 }
 
 void NormalUser::receive(const string& message, Users* fromUser, ChatRoom* room) {
-    //iterator
-    /*if (fromUser != nullptr && room != nullptr) {
+    if (fromUser != nullptr && room != nullptr) {
         cout << "[" << room->getRoomName() << "] " << name 
              << " received from " << fromUser->getName() << ": " << message << endl;
 
@@ -56,29 +54,31 @@ void NormalUser::receive(const string& message, Users* fromUser, ChatRoom* room)
         }
     } else {
         cout << "Cannot receive message - invalid parameters!" << endl;
-    }*/
+    }
 }
 
 void NormalUser::addCommand(Command* command) {
-    //vector push
-    /*if (command != nullptr) {
-        commandQueue = command;
+    if (command != nullptr) {
+        commandQueue.push_back(command);
         cout << name << " added command to queue" << endl;
     } else {
         cout << "Cannot add null command!" << endl;
-    }*/
+    }
 }
 
 void NormalUser::executeAll() {
     //iterator
-    /*if (commandQueue != nullptr) {
+    if (!commandQueue.empty()) {
         cout << name << " executing all queued commands..." << endl;
-        //commandQueue->execute();
-        commandQueue = nullptr;
+        auto commIT= createcommandIterator();
+        for(commIT.first();!commIT.isDone();commIT.next()){
+            Command* com=commIT.current();
+            com->execute();
+        }
         cout << "All commands executed by " << name << endl;
     } else {
         cout << "No commands to execute for " << name << endl;
-    }*/
+    }
 }
 
 string NormalUser::getUserType() const {

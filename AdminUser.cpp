@@ -110,9 +110,6 @@ void AdminUser::executeAll()
     {
         cout << " Admin command execution failed - error occurred" << endl;
     }
-
-    // Clear the queue after execution
-    commandQueue.clear();
     cout << "Command queue cleared - ready for next administrative task" << endl;
 }
 
