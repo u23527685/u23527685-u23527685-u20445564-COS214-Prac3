@@ -11,8 +11,8 @@
 #include <string>
 #include <vector>
 
-#include "ChatHistoryIterator.h"
-#include "UserIterator.h"
+class UsersIterator;
+class ChatHistoryIterator;
 
 using namespace std;
 
@@ -45,16 +45,12 @@ public:
     /**
      * @brief [factory function for users iterator]
      */
-    UsersIterator createUserIterator() const {
-        return UsersIterator(users);
-    }
+    UsersIterator createUserIterator() const ;
 
     /**
      * @brief [factory function for chat history iterator]
      */
-    ChatHistoryIterator createChatHistoryIterator() const {
-        return ChatHistoryIterator(chatHistory);
-    }
+    ChatHistoryIterator createChatHistoryIterator() const;
     /**
      * @brief [Constructor, initializes empty chat room]
      */

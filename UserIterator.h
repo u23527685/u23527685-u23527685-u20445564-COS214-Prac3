@@ -7,9 +7,14 @@
 #ifndef USERITERATOR_H
 #define USERITERATOR_H
 
-#include "Iterator.h"
+class Users;
+
+#include <cstddef>
 #include "Users.h"
+#include "Iterator.h"
 #include <vector>
+
+
 
 /**
  * @class UsersIterator

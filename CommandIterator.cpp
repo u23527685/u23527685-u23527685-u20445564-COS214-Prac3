@@ -6,6 +6,7 @@
  */
 using namespace std;
 #include "CommandIterator.h"
+#include "Command.h"
 
 void CommandIterator::first(){ index = 0; }
 

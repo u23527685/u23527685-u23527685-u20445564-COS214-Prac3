@@ -7,8 +7,9 @@
 #ifndef CHATHISTORYITERATOR_H
 #define CHATHISTORYITERATOR_H
 
-#include "Iterator.h"
+#include <cstddef>
 #include <string>
+#include "Iterator.h"
 #include <vector>
 
 using namespace std;

@@ -6,6 +6,7 @@
  */
 
 #include "CtrlCat.h"
+#include "Users.h"
 #include <iostream>
 
 CtrlCat::CtrlCat() {

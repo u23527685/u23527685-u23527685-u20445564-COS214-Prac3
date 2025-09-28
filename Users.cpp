@@ -7,6 +7,7 @@
 #include "Users.h"
 #include "Command.h"
 #include "ChatRoom.h"
+#include "CommandIterator.h"
 #include <iostream>
 
 using namespace std;
@@ -63,4 +64,8 @@ void Users::removeChatRoom(ChatRoom* room) {
 
 ChatRoom* Users::getChatRooms() const {
     return nullptr;
+}
+
+CommandIterator Users::createcommandIterator() const {
+    return CommandIterator(commandQueue);
 }

@@ -7,9 +7,11 @@
 #ifndef COMMANDITERATOR_H
 #define COMMANDITERATOR_H
 
+#include <cstddef>
 #include "Iterator.h"
-#include "Command.h"
 #include <vector>
+
+class Command;
 
 /**
  * @class CommandIterator

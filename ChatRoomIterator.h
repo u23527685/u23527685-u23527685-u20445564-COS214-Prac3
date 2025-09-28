@@ -1,10 +1,11 @@
 #ifndef CHATROOMITERATOR_H
 #define CHATROOMITERATOR_H
 
+#include <cstddef>
+class ChatRoom;
+#include "ChatRoom.h"
 #include "Iterator.h"
 #include <vector>
-
-class ChatRoom;
 
 class ChatRoomIterator : public Iterator<ChatRoom*> {
 private:
@@ -15,16 +16,13 @@ public:
     ChatRoomIterator(const vector<ChatRoom*>& roomList) 
         : rooms(roomList), index(0) {}
 
-    void first() override { index = 0; }
+    void first() override;
 
-    void next() override { if (index < rooms.size()) ++index; }
+    void next() override ;
 
-    bool isDone() const override { return index >= rooms.size(); }
+    bool isDone() const override ;
 
-    ChatRoom* current() const override {
-        if (!isDone()) return rooms[index];
-        return nullptr;
-    }
+    ChatRoom* current() const override ;
 
     size_t getIndex()const override;
 };

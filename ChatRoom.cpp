@@ -9,6 +9,8 @@
 #include "Users.h"
 #include <iostream>
 #include <algorithm>
+#include "ChatHistoryIterator.h"
+#include "UserIterator.h"
 
 ChatRoom::ChatRoom() {
     cout << "ChatRoom base initialized"<< endl;
@@ -177,6 +179,14 @@ string ChatRoom::getRoomStats() const {
     }
     
     return stats;
+}
+
+ChatHistoryIterator ChatRoom::createChatHistoryIterator() const {
+    return ChatHistoryIterator(chatHistory);
+}
+
+ UsersIterator ChatRoom::createUserIterator() const {
+    return UsersIterator(users);
 }
 
 void ChatRoom::clearHistory() {
