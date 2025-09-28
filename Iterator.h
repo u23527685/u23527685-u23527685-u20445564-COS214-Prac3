@@ -7,7 +7,6 @@
 #ifndef ITERATOR_H
 #define ITERATOR_H
 
-#include <cstddef>
 using namespace std;
 
 /**
@@ -48,7 +47,7 @@ class Iterator{
         /**
          * @brief returns the current index
          */
-        virtual  size_t getIndex()const =0;
+        virtual  int getIndex()const =0;
 };
 
 #endif

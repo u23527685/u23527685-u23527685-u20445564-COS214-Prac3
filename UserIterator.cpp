@@ -18,6 +18,6 @@ Users* UsersIterator::current()const {
     return nullptr;
 }
 
-size_t UsersIterator::getIndex()const{
-    return index;
+int UsersIterator::getIndex()const{
+    return (int)index;
 }

@@ -1,7 +1,7 @@
 /**
  * @file [CtrlCat.cpp]
  * @brief [Implementation of CtrlCat chat room]
- * @author [Marodi Jessica]
+ * @author [Marodi Jessica, Okaile Gaesale]
  * @date [2025-09-24]
  */
 
@@ -14,26 +14,12 @@ CtrlCat::CtrlCat() {
 }
 
 CtrlCat::~CtrlCat() {
-    /*if (users != nullptr) {
-        users = nullptr;
-    }
-    if (chatHistory != nullptr) {
-        delete[] chatHistory;
-        chatHistory = nullptr;
-    }*/
+    cout<<"CTRLCAT destructing"<<endl;
 }
 
 void CtrlCat::registerUser(Users* user) {
-    /*if (user != nullptr) {
-        if (users == nullptr) {
-            users = user;
-        }
-        
-        cout << user->getName() << " (" << user->getUserType() 
-                 << ") has joined CtrlCat!" << endl;
-        
-        user->addChatRoom(this);
-    }*/
+   ChatRoom::registerUser(user);
+    cout << user->getName() << " (" << user->getUserType()<< ") has joined CtrlCat!" << endl;
 }
 
 void CtrlCat::sendMessage(string* message, Users* fromUser) {
@@ -41,32 +27,38 @@ void CtrlCat::sendMessage(string* message, Users* fromUser) {
         cout << "[CtrlCat] " << fromUser->getName() 
                  << " says: " << *message << endl;
         
-        //saveMessage(*message, fromUser);
+        ChatRoom::sendMessage(message, fromUser);
     }
 }
 
 void CtrlCat::removeUser(Users* user) {
-    /*if (user != nullptr) {
-        cout << user->getName() << " has left CtrlCat!" << endl;
-        
-        user->removeChatRoom(this);
-        
-        if (users == user) {
-            users = nullptr;
-        }
-    }*/
+    if (user == nullptr) {
+        cout <<"Cannot remove null user from CtrlCat!" <<endl;
+        return;
+    }
+    
+    cout << "A pack member is leaving CtrlCat..." << endl;
+    cout << user->getName() << " (" << user->getUserType() << ") is heading to the CtrlCat park" << endl;
+    
+    if (user->getUserType() == "Admin") {
+        broadcastSystemMessage("The pack leader " + user->getName() + " is leaving! Thanks for keeping us in line!");
+        broadcastSystemMessage("Your leadership was as reliable as a German Shepherd's loyalty!");
+    }
+    else if (user->getUserType() == "Co-Admin") {
+        broadcastSystemMessage("Co-Admin " + user->getName() + " is leaving the pack! Thanks for herding our discussions!");
+        broadcastSystemMessage("Your assistance was as helpful as a service dog!");
+    } 
+    else {
+        broadcastSystemMessage(user->getName() + " is leaving our coding pack!");
+        broadcastSystemMessage("Thanks for all the PAW-some contributions!");
+    }
+    
+    ChatRoom::removeUser(user);
+    
+    broadcastSystemMessage("Farewell " + user->getName() + "! Come back soon, we'll be waiting with treats!");
+    cout << user->getName() << " has left CtrlCat. The pack will miss them!" << endl;
 }
 
 string CtrlCat::getRoomName() const {
     return "CtrlCat";
-}
-
-void CtrlCat::saveMessage(const string& message, Users* fromUser) {
-    /*if (fromUser != nullptr) {
-        string formattedMessage = "[CtrlCat] " + fromUser->getName() + ": " + message;
-        
-        if (chatHistory == nullptr) {
-            chatHistory = new string(formattedMessage);
-        }
-    }*/
 }

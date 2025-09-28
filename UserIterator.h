@@ -9,7 +9,6 @@
 
 class Users;
 
-#include <cstddef>
 #include "Users.h"
 #include "Iterator.h"
 #include <vector>
@@ -58,7 +57,7 @@ public:
     /**
      * @brief returns the current index
      */
-    size_t getIndex()const override;
+    int getIndex()const override;
 };
 
 #endif // USERITERATOR_H

@@ -23,7 +23,10 @@ ChatRoom::~ChatRoom() {
     users.clear();
     
     // Clean up chat history
-   chatHistory.clear();
+    for (string* msg : chatHistory) {
+        delete msg;  // Free the allocated string
+    }
+    chatHistory.clear();
     
     cout << "ChatRoom cleanup completed" << endl;
 }
@@ -102,10 +105,8 @@ void ChatRoom::saveMessage(const string& message, Users* fromUser) {
     }
 
     // Create formatted message for history
-    string formattedMessage =  fromUser->getName() + " (" + fromUser->getUserType() + "): " + message;
-    
-    // Save to history
-    chatHistory.push_back(&formattedMessage);
+    string* formattedMessage = new string(fromUser->getName() +  " (" + fromUser->getUserType() + "): " + message);
+    chatHistory.push_back(formattedMessage);
 
     cout << "Message saved to history " << endl;
 }
@@ -193,6 +194,9 @@ void ChatRoom::clearHistory() {
     cout << "Clearing chat history for " << getRoomName() << "..." << endl;
     
     // Clear all history entries
+    for (string* msg : chatHistory) {
+        delete msg;  // Free the allocated string
+    }
     chatHistory.clear();
 
     cout << "Chat history cleared successfully" << endl;
@@ -222,9 +226,8 @@ void ChatRoom::broadcastSystemMessage(const string& message) {
     }
     
     // Save system message to history
-    string formattedSystemMessage = "[" + getRoomName() + "] " + systemMessage;
-    
-    chatHistory.push_back(&formattedSystemMessage);
+    string* formattedSystemMessage = new string("[" + getRoomName() + "] " + systemMessage);
+    chatHistory.push_back(formattedSystemMessage);
 }
 
 string ChatRoom::getRoomNameFunc(){

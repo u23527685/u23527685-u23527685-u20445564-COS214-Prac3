@@ -24,7 +24,7 @@ public:
 
     ChatRoom* current() const override ;
 
-    size_t getIndex()const override;
+    int getIndex()const override;
 };
 
 #endif // CHATROOMITERATOR_H

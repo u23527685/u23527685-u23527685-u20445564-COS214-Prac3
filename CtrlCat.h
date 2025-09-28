@@ -40,7 +40,6 @@ class CtrlCat : public ChatRoom {
          * @return The name "CtrlCat"
          */
         string getRoomName() const override;
-        void saveMessage(const string& message, Users* fromUser);
 };
 
 

@@ -94,9 +94,6 @@ void Dogorithm::sendMessage(string* message, Users* fromUser) {
     }
     
     ChatRoom::sendMessage(message, fromUser);
-    
-    string doggyMessage = *message;
-    saveMessage(doggyMessage, fromUser);
 }
 
 void Dogorithm::removeUser(Users* user) {

@@ -52,7 +52,7 @@ void Users::removeChatRoom(ChatRoom* room) {
         return;
     }
     auto roomsIterator=createIterator();
-    for(roomsIterator.first();roomsIterator.isDone();roomsIterator.next()){
+    for(roomsIterator.first();!roomsIterator.isDone();roomsIterator.next()){
         ChatRoom* currroom=roomsIterator.current();
         if(currroom==room){
             chatRooms.erase(chatRooms.begin()+roomsIterator.getIndex());

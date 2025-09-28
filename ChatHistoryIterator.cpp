@@ -18,6 +18,6 @@ string* ChatHistoryIterator::current()const {
     return nullptr;
 }
 
-size_t ChatHistoryIterator::getIndex()const{
-    return index;
+int ChatHistoryIterator::getIndex()const{
+    return (int)index;
 }

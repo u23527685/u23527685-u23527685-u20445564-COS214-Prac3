@@ -55,7 +55,7 @@ public:
     /**
      * @brief returns the current index
      */
-    size_t getIndex()const override;
+    int getIndex()const override;
 };
 
 #endif // COMMANDITERATOR_H

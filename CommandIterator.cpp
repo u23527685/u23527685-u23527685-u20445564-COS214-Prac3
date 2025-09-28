@@ -19,6 +19,6 @@ Command* CommandIterator::current()const {
     return nullptr;
 }
 
-size_t CommandIterator::getIndex()const{
-    return index;
+int CommandIterator::getIndex()const{
+    return (int)index;
 }

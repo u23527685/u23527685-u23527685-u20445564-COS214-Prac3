@@ -12,6 +12,6 @@ ChatRoom* ChatRoomIterator::current()const {
     return nullptr;
 }
 
-size_t ChatRoomIterator::getIndex()const{
-    return index;
+int ChatRoomIterator::getIndex()const{
+    return (int)index;
 }
