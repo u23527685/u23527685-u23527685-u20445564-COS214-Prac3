@@ -1,6 +1,6 @@
 /**
  * @file [UsersIterator.h]
- * @brief [Concrete class header implementation for Chat History Iterator]
+ * @brief [Concrete class header implementation for Users Iterator]
  * @author [Okaile Gaesale]
  * @date [2025-09-28]
  */

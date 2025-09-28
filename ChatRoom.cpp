@@ -70,8 +70,8 @@ void ChatRoom::sendMessage(string* message, Users* fromUser) {
     }
     
     int deliveredCount = 0;
+    
     auto userIt = createUserIterator();
-
     for (userIt.first(); !userIt.isDone(); userIt.next()) {
         Users* u = userIt.current();
         if (u && u!=fromUser) {

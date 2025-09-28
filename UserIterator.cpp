@@ -1,6 +1,6 @@
 /**
  * @file [UsersIterator.cpp]
- * @brief [Implementation of the concrete ChatHistoryIterator class]
+ * @brief [Implementation of the concrete UsersIterator class]
  * @author [Okaile Gaesale]
  * @date [2025-09-28]
  */
