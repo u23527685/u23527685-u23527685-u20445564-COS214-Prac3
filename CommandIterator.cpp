@@ -1,3 +1,9 @@
+/**
+ * @file [CommandIterator.cpp]
+ * @brief [Implementation of the concrete ChatHistoryIterator class]
+ * @author [Okaile Gaesale]
+ * @date [2025-09-28]
+ */
 using namespace std;
 #include "CommandIterator.h"
 
