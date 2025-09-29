@@ -34,7 +34,7 @@ int main()
 {
   srand(time(nullptr));
     
-    cout << "=== CtrlCat Chat Room Testing ===" << endl << endl;
+    cout << "CtrlCat Chat Room Testing" << endl << endl;
     
     // Create chat room
     CtrlCat CatLoversRoom;
@@ -96,7 +96,7 @@ int main()
 
     cout << "\n--- User Removal ---" << endl;
     // Remove user
-    catAdmin->removeUser(NormalCatUser1, &CatLoversRoom);
+    catAdmin->removeOtherUser(NormalCatUser1, &CatLoversRoom);
     
     // Remove observers
     CatLoversRoom.removeObserver(NormalCatUser1);
@@ -108,12 +108,10 @@ int main()
     cout << CatLoversRoom.getRoomStats() << endl;
 
     cout << "\n--- Cleanup ---" << endl;
-    // Clean up memory (remove duplicate delete)
     delete catAdmin;
     delete coCatAdmin;
     delete NormalCatUser1;
-    // Removed duplicate: delete NormalCatUser1; // This was a duplicate!
-
+ 
     cout << "\n=== Testing Complete ===" << endl;
     return 0;
 }

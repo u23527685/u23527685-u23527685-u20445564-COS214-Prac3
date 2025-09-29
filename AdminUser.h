@@ -90,7 +90,7 @@ public:
      * @param user The user to remove
      * @param room The room to remove them from
      */
-    void removeUser(Users* user, ChatRoom* room);
+    void removeOtherUser(Users* user, ChatRoom* room);
     
     /**
      * @brief Announce a message to all users in room (admin privilege)
@@ -114,7 +114,7 @@ private:
      * @param fromUser User who sent the message
      * @param room The chat room
      */
-    void performContentModeration(const string& message, Users* fromUser, ChatRoom* room);
+    void performContentModeration(const string& message, ChatRoom* room);
     
     /**
      * @brief Handle user requests and auto-responses

@@ -66,7 +66,7 @@ void AdminUser::receive(const string &message, Users *fromUser, ChatRoom *room)
          << " (" << fromUser->getUserType() << "): " << message << endl;
 
     processAdminAlerts(message, fromUser, room);
-    performContentModeration(message, fromUser, room);
+    performContentModeration(message, room);
     handleUserRequests(message, fromUser, room);
 }
 
@@ -160,7 +160,7 @@ void AdminUser::moderateMessage(const string &message, ChatRoom *room)
     send(logMsg, room);
 }
 
-void AdminUser::removeUser(Users *user, ChatRoom *room)
+void AdminUser::removeOtherUser(Users *user, ChatRoom *room)
 {
     if (!user || !room || user == this)
         return;
@@ -200,7 +200,7 @@ void AdminUser::processAdminAlerts(const string &message, Users *fromUser, ChatR
         send("[ADMIN PRIORITY] Emergency assistance acknowledged.", room);
 }
 
-void AdminUser::performContentModeration(const string &message, Users *fromUser, ChatRoom *room)
+void AdminUser::performContentModeration(const string &message, ChatRoom *room)
 {
     if (message.length() > 300)
         moderateMessage(message, room);
