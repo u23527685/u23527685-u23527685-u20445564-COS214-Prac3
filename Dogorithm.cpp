@@ -1,3 +1,4 @@
+
 /**
  * @file [Dogorithm.cpp]
  * @brief [Implementation of Dogorithm chat room with dog-themed features]

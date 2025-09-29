@@ -1,3 +1,4 @@
+
 /**
  * @file [NormalUser.cpp]
  * @brief [Implementation of NormalUser class]
@@ -92,3 +93,4 @@ string NormalUser::getUserType() const {
 string NormalUser::getName() const {
     return name;
 }
+

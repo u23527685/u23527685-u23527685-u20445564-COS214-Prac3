@@ -1,3 +1,4 @@
+
 /**
  * @file [Users.h]
  * @brief [Abstract base class header implementation for all user types in the chat system]
@@ -62,5 +63,6 @@ class Users : public Observer
         virtual string getUserType() const = 0;
         virtual ChatRoom *getChatRooms() const;
 };
+
 
 #endif // USERS_H

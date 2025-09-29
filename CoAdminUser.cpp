@@ -1,3 +1,4 @@
+
 /**
  * @file [CoAdminUser.cpp]
  * @brief [Implementation of CoAdminUser class]
@@ -110,4 +111,5 @@ void CoAdminUser::assistModeration(const string& message, ChatRoom* room) {
     } else {
         cout << "Cannot assist moderation - room is null!" << endl;
     }
+
 }

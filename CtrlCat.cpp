@@ -1,3 +1,4 @@
+
 /**
  * @file [CtrlCat.cpp]
  * @brief [Implementation of CtrlCat chat room]
@@ -77,4 +78,5 @@ void CtrlCat::removeUser(Users* user) {
 
 string CtrlCat::getRoomName() const {
     return "CtrlCat";
+
 }

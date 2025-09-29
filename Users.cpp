@@ -1,3 +1,4 @@
+
 /**
  * @file [Users.cpp]
  * @brief [Implementation of the abstract Users base class for all user types]
@@ -74,3 +75,4 @@ ChatRoomIterator Users::createIterator() const {
 CommandIterator Users::createcommandIterator() const {
     return CommandIterator(commandQueue);
 }
+

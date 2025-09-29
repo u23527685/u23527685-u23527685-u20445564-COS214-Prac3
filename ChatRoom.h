@@ -1,3 +1,4 @@
+
 /**
  * @file [ChatRoom.h]
  * @brief [Abstract class ChatRoom header file]
@@ -167,3 +168,4 @@ public:
 };
 
 #endif // CHATROOM_H
+

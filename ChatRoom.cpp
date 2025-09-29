@@ -1,3 +1,4 @@
+
 /**
  * @file [ChatRoom.cpp]
  * @brief [Implementation of the ChatRoom class]
@@ -252,4 +253,5 @@ int ChatRoom::findUserIndex(Users* user) const {
         }
     }
     return -1;
+
 }

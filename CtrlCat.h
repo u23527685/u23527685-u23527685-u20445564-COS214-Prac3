@@ -1,3 +1,4 @@
+
 /**
  * @file [CtrlCat.h]
  * @brief [Concrete mediator for CtrlCat chat room]
@@ -47,3 +48,4 @@ public:
 };
 
 #endif // CTRLCAT_H
+
