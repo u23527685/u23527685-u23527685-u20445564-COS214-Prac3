@@ -1,0 +1,6 @@
+
+make coverage
+
+./chatapp
+
+make coverage-html
