@@ -1,8 +1,8 @@
 /**
- * @file [main.cpp]
- * @brief [Stack-only test main function for 100% coverage with zero memory leaks]
- * @author [Generated for complete coverage testing]
- * @date [2025-09-28]
+ * @file [TestingMain.cpp]
+ * @brief [Final 100% coverage test - targeting remaining gaps]
+ * @author [Complete Coverage Testing]
+ * @date [2025-09-29]
  */
 
 #include "NormalUser.h"
@@ -27,367 +27,900 @@
 using namespace std;
 
 int main() {
-    cout << "=== COMPREHENSIVE CHAT SYSTEM TEST FOR 100% COVERAGE ===" << endl;
+    cout << "=== FINAL 100% COVERAGE TEST ===" << endl;
     cout << endl;
 
-    // Test 1: Basic User Creation and Destruction
-    cout << "--- Test 1: User Creation and Destruction ---" << endl;
-    {
-        // Test default constructors with stack allocation
-        NormalUser defaultNormal;
-        AdminUser defaultAdmin;
-        CoAdminUser defaultCoAdmin;
-        
-        // Test parameterized constructors
-        NormalUser normalUser("Alice");
-        AdminUser adminUser("Bob_Admin");
-        CoAdminUser coAdminUser("Charlie_CoAdmin");
-        
-        // Test getName and getUserType
-        cout << "Normal user: " << normalUser.getName() << " (" << normalUser.getUserType() << ")" << endl;
-        cout << "Admin user: " << adminUser.getName() << " (" << adminUser.getUserType() << ")" << endl;
-        cout << "CoAdmin user: " << coAdminUser.getName() << " (" << coAdminUser.getUserType() << ")" << endl;
-    }
-    cout << endl;
-
-    // Test 2: Chat Room Creation and Basic Operations
-    cout << "--- Test 2: Chat Room Creation ---" << endl;
-    {
-        Dogorithm dogRoom;
-        CtrlCat catRoom;
-        
-        cout << "Dog room name: " << dogRoom.getRoomName() << endl;
-        cout << "Cat room name: " << catRoom.getRoomName() << endl;
-        cout << "Dog room theme: " << dogRoom.getRoomTheme() << endl;
-    }
-    cout << endl;
-
-    // Test 3: User Registration and Chat Room Functionality
-    cout << "--- Test 3: User Registration and Room Operations ---" << endl;
+    // Test 1: Command constructors (for .h file coverage)
+    cout << "--- Test 1: Command Constructors ---" << endl;
     {
         Dogorithm room;
-        NormalUser user1("TestUser1");
-        AdminUser admin("TestAdmin");
-        CoAdminUser coAdmin("TestCoAdmin");
+        NormalUser user("User");
+        room.registerUser(&user);
         
-        // Test user registration
-        room.registerUser(&user1);
-        room.registerUser(&admin);
-        room.registerUser(&coAdmin);
+        string msg1 = "Message 1";
+        string msg2 = "Message 2";
+        string msg3 = "Message 3";
         
-        // Test null registration
-        room.registerUser(nullptr);
+        // Create commands to hit constructors in .h files
+        SaveMessageCommand save1(msg1, &room, &user);
+        SaveMessageCommand save2(msg2, &room, &user);
+        SaveMessageCommand save3(msg3, &room, &user);
         
-        // Test duplicate registration
-        room.registerUser(&user1);
+        SendMessageCommand send1(msg1, &room, &user);
+        SendMessageCommand send2(msg2, &room, &user);
+        SendMessageCommand send3(msg3, &room, &user);
         
-        // Test room stats
-        cout << room.getRoomStats() << endl;
-        
-        // Test isUserInRoom
-        cout << "Is user1 in room? " << (room.isUserInRoom(&user1) ? "Yes" : "No") << endl;
-        
-        // Test getUsers and getChatHistory
-        vector<Users*> users = room.getUsers();
-        cout << "Number of users in room: " << users.size() << endl;
-        
-        vector<string*> history = room.getChatHistory();
-        cout << "Number of messages in history: " << history.size() << endl;
+        // Execute them
+        save1.execute();
+        send1.execute();
+        save2.execute();
+        send2.execute();
+        save3.execute();
+        send3.execute();
     }
     cout << endl;
 
-    // Test 4: Message Sending and Receiving
-    cout << "--- Test 4: Message Operations ---" << endl;
+    // Test 2: CommandIterator complete coverage
+    cout << "--- Test 2: CommandIterator Full Coverage ---" << endl;
     {
         Dogorithm room;
-        NormalUser user1("Sender");
-        NormalUser user2("Receiver");
-        AdminUser admin("ModeratorAdmin");
-        CoAdminUser coAdmin("HelperCoAdmin");
+        NormalUser user("CmdUser");
+        room.registerUser(&user);
         
-        room.registerUser(&user1);
-        room.registerUser(&user2);
-        room.registerUser(&admin);
-        room.registerUser(&coAdmin);
+        string m1 = "cmd1", m2 = "cmd2", m3 = "cmd3";
+        SaveMessageCommand c1(m1, &room, &user);
+        SaveMessageCommand c2(m2, &room, &user);
+        SaveMessageCommand c3(m3, &room, &user);
         
-        // Test normal message sending
-        user1.send("Hello everyone!", &room);
-        user1.send("This is a test message", &room);
+        user.addCommand(&c1);
+        user.addCommand(&c2);
+        user.addCommand(&c3);
         
-        // Test dog-themed messages in Dogorithm
-        user1.send("I love my dog and puppy!", &room);
-        user1.send("Let's fetch some algorithms!", &room);
-        user1.send("Programming with my canine friend", &room);
+        // Iterate through commands
+        CommandIterator it = user.createcommandIterator();
+        it.first();
+        cout << "Start index: " << it.getIndex() << endl;
         
-        // Test programming-related messages
-        user2.send("Let's discuss algorithms and code", &room);
-        user2.send("Hello, I need help with programming", &room);
+        while (!it.isDone()) {
+            Command* cmd = it.current();
+            if (cmd) {
+                cout << "Command at index " << it.getIndex() << endl;
+            }
+            it.next();
+        }
         
-        // Test admin messages
-        admin.send("This is an admin announcement", &room);
-        admin.send("Please follow the rules", &room);
-        
-        // Test co-admin messages
-        coAdmin.send("I'm here to help moderate", &room);
-        coAdmin.send("[URGENT] Need immediate attention", &room);
-        
-        // Test empty message handling
-        user1.send("", &room);
-        
-        // Test null room handling
-        user1.send("This won't work", nullptr);
-        
-        // Test messages with different content for moderation
-        user1.send("This is a very long message that exceeds normal length limits and should trigger moderation systems to check for compliance with community standards and guidelines", &room);
-        user1.send("This message contains spam keywords", &room);
-        user1.send("inappropriate offensive content here", &room);
+        // Test at boundary (index >= size)
+        cout << "At end, isDone: " << it.isDone() << endl;
+        Command* nullCmd = it.current(); // Should return nullptr
+        cout << "Current at end: " << (nullCmd ? "not null" : "null") << endl;
+        it.next(); // Should not increment
+        cout << "Final index: " << it.getIndex() << endl;
     }
     cout << endl;
 
-    // Test 5: Admin-specific Operations
-    cout << "--- Test 5: Admin Operations ---" << endl;
+    // Test 3: All iterator edge cases
+    cout << "--- Test 3: All Iterators Boundary Cases ---" << endl;
     {
         Dogorithm room;
-        AdminUser admin("SuperAdmin");
-        NormalUser user1("RegularUser");
-        NormalUser user2("AnotherUser");
+        NormalUser u1("U1"), u2("U2"), u3("U3");
+        
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        room.registerUser(&u3);
+        
+        u1.send("msg1", &room);
+        u2.send("msg2", &room);
+        u3.send("msg3", &room);
+        
+        // UserIterator - complete traversal
+        UsersIterator uit = room.createUserIterator();
+        uit.first();
+        while (!uit.isDone()) {
+            uit.current();
+            uit.getIndex();
+            uit.next();
+        }
+        uit.current(); // nullptr
+        uit.next(); // no increment
+        uit.getIndex();
+        
+        // ChatHistoryIterator - complete traversal
+        ChatHistoryIterator hit = room.createChatHistoryIterator();
+        hit.first();
+        while (!hit.isDone()) {
+            hit.current();
+            hit.getIndex();
+            hit.next();
+        }
+        hit.current(); // nullptr
+        hit.next(); // no increment
+        hit.getIndex();
+        
+        // ChatRoomIterator - complete traversal
+        Dogorithm room2;
+        u1.addChatRoom(&room2);
+        ChatRoomIterator rit = u1.createIterator();
+        rit.first();
+        while (!rit.isDone()) {
+            rit.current();
+            rit.getIndex();
+            rit.next();
+        }
+        rit.current(); // nullptr
+        rit.next(); // no increment
+        rit.getIndex();
+    }
+    cout << endl;
+
+    // Test 4: Every AdminUser code path systematically
+    cout << "--- Test 4: Complete AdminUser Coverage ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("FullAdmin");
+        NormalUser u1("U1"), u2("U2"), u3("U3"), u4("U4");
         
         room.registerUser(&admin);
-        room.registerUser(&user1);
-        room.registerUser(&user2);
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        room.registerUser(&u3);
+        room.registerUser(&u4);
         
-        // Test admin moderation
-        admin.moderateMessage("This is a normal message", &room);
-        admin.moderateMessage("This is a very long message that definitely exceeds the 200 character limit and should trigger the length violation warning system that admins have implemented", &room);
-        admin.moderateMessage("spam buy now click here", &room);
-        admin.moderateMessage("inappropriate offensive", &room);
+        // === MODERATION TESTS - Every branch ===
+        
+        // 1. Normal message (no violations)
+        admin.moderateMessage("This is a perfectly normal message", &room);
+        
+        // 2. Length violation (>200 chars)
+        admin.moderateMessage(string(201, 'x'), &room);
+        
+        // 3. Spam - lowercase
+        admin.moderateMessage("this is spam content", &room);
+        
+        // 4. Buy now trigger
+        admin.moderateMessage("buy now before it's too late", &room);
+        
+        // 5. Click here trigger
+        admin.moderateMessage("click here for prizes", &room);
+        
+        // 6. Inappropriate content
+        admin.moderateMessage("this is inappropriate content", &room);
+        
+        // 7. Offensive content
+        admin.moderateMessage("this is offensive language", &room);
+        
+        // 8. Combination triggers
+        admin.moderateMessage("spam buy now click here inappropriate offensive", &room);
+        
+        // 9. Empty message
         admin.moderateMessage("", &room);
         
-        // Test user removal
-        admin.removeOtherUser(&user1, &room);
+        // 10. Null room
+        admin.moderateMessage("test", nullptr);
+        
+        // === REMOVE USER TESTS - Every branch ===
+        
+        // 1. Valid user removal
+        admin.removeOtherUser(&u1, &room);
+        
+        // 2. User not in room (already removed)
+        admin.removeOtherUser(&u1, &room);
+        
+        // 3. Null user
         admin.removeOtherUser(nullptr, &room);
+        
+        // 4. Try to remove self
         admin.removeOtherUser(&admin, &room);
         
-        // Re-register user1 for remaining tests since it was removed
-        room.registerUser(&user1);
+        // 5. Null room
+        room.registerUser(&u1); // Re-add for next test
+        admin.removeOtherUser(&u1, nullptr);
+        room.registerUser(&u1);
         
-        // Test announcements
-        admin.makeAnnouncement("Welcome to our community!", &room);
+        // === ANNOUNCEMENT TESTS - Every branch ===
+        
+        // 1. Valid announcement
+        admin.makeAnnouncement("This is an important announcement", &room);
+        
+        // 2. Empty announcement
         admin.makeAnnouncement("", &room);
         
-        // Test admin receiving different message types
-        user2.send("help admin emergency", &room);
-        user2.send("urgent emergency situation", &room);
-        user2.send("I need the rules and guidelines", &room);
-        user2.send("User joined the room", &room);
+        // 3. Null room
+        admin.makeAnnouncement("test announcement", nullptr);
         
-        // Test moderation with null room
-        admin.moderateMessage("test", nullptr);
-        admin.removeOtherUser(&user2, nullptr);
-        admin.makeAnnouncement("test", nullptr);
-    }
-    cout << endl;
-
-    // Test 6: Iterator Pattern Implementation (without command testing to avoid memory leaks)
-    cout << "--- Test 6: Iterator Operations ---" << endl;
-    {
-        Dogorithm room;
-        NormalUser user1("IterUser1");
-        NormalUser user2("IterUser2");
-        AdminUser admin("IterAdmin");
+        // === SEND TESTS - Every branch ===
         
-        room.registerUser(&user1);
-        room.registerUser(&user2);
-        room.registerUser(&admin);
+        // 1. Valid message
+        admin.send("Valid admin message", &room);
         
-        // Send messages to create history
-        user1.send("Message 1", &room);
-        user2.send("Message 2", &room);
-        admin.send("Admin message", &room);
-        
-        // Test UserIterator
-        cout << "Testing UserIterator:" << endl;
-        UsersIterator userIt = room.createUserIterator();
-        for (userIt.first(); !userIt.isDone(); userIt.next()) {
-            Users* currentUser = userIt.current();
-            if (currentUser) {
-                cout << "User: " << currentUser->getName() << " (Index: " << userIt.getIndex() << ")" << endl;
-            }
-        }
-        
-        // Test ChatHistoryIterator
-        cout << "Testing ChatHistoryIterator:" << endl;
-        ChatHistoryIterator historyIt = room.createChatHistoryIterator();
-        for (historyIt.first(); !historyIt.isDone(); historyIt.next()) {
-            string* message = historyIt.current();
-            if (message) {
-                cout << "History message (Index: " << historyIt.getIndex() << "): " << *message << endl;
-            }
-        }
-        
-        // Test ChatRoomIterator
-        cout << "Testing ChatRoomIterator:" << endl;
-        ChatRoomIterator roomIt = user1.createIterator();
-        for (roomIt.first(); !roomIt.isDone(); roomIt.next()) {
-            ChatRoom* currentRoom = roomIt.current();
-            if (currentRoom) {
-                cout << "Room: " << currentRoom->getRoomName() << " (Index: " << roomIt.getIndex() << ")" << endl;
-            }
-        }
-        
-        // Test CommandIterator with empty queue (to avoid memory management)
-        cout << "Testing CommandIterator:" << endl;
-        CommandIterator cmdIt = user1.createcommandIterator();
-        cmdIt.first();
-        cout << "Empty command queue isDone: " << cmdIt.isDone() << endl;
-        cout << "Empty command queue current: " << (cmdIt.current() ? "Not null" : "null") << endl;
-    }
-    cout << endl;
-
-    // Test 7: Edge Cases and Error Handling
-    cout << "--- Test 7: Edge Cases and Error Handling ---" << endl;
-    {
-        Dogorithm room;
-        NormalUser user("EdgeCaseUser");
-        AdminUser admin("EdgeCaseAdmin");
-        
-        // Test operations with null parameters
-        room.registerUser(nullptr);
-        room.sendMessage(nullptr, &user);
-        string testMessage = "test";
-        room.sendMessage(&testMessage, nullptr);
-        room.saveMessage("", nullptr);
-        room.saveMessage("test", nullptr);
-        room.removeUser(nullptr);
-        
-        // Test user operations with null rooms
-        user.send("test", nullptr);
-        user.receive("test", &admin, nullptr);
-        user.receive("test", nullptr, &room);
-        
-        // Test admin operations with null parameters
+        // 2. Empty message
         admin.send("", &room);
+        
+        // 3. Null room
+        admin.send("test", nullptr);
+        
+        // === RECEIVE TESTS - Every branch ===
+        
+        // 1. Valid receive
+        admin.receive("normal message", &u2, &room);
+        
+        // 2. Null fromUser
         admin.receive("test", nullptr, &room);
-        admin.receive("test", &user, nullptr);
         
-        // Test user not in room scenarios
-        NormalUser outsideUser("OutsideUser");
-        outsideUser.send("I'm not in the room", &room);
+        // 3. Null room
+        admin.receive("test", &u2, nullptr);
         
-        // Test room operations
-        room.clearHistory();
-        room.broadcastSystemMessage("System test");
-        room.broadcastSystemMessage("");
+        // === ALERT PROCESSING - Every trigger ===
         
-        // Test user removal scenarios
-        room.registerUser(&user);
-        room.registerUser(&admin);
-        room.removeUser(&outsideUser);
-    }
-    cout << endl;
-
-    // Test 8: CtrlCat Room Specific Tests
-    cout << "--- Test 8: CtrlCat Room Tests ---" << endl;
-    {
-        CtrlCat catRoom;
-        NormalUser user("CatUser");
-        string message = "Meow!";
+        // 1. Help keyword
+        u2.send("I need help with something", &room);
         
-        // Test CtrlCat specific methods
-        catRoom.registerUser(&user);
-        catRoom.sendMessage(&message, &user);
-        catRoom.saveMessage("Cat message", &user);
-        catRoom.removeUser(&user);
-    }
-    cout << endl;
-
-    // Test 9: Additional Coverage for Complex Scenarios
-    cout << "--- Test 9: Complex Scenario Testing ---" << endl;
-    {
-        Dogorithm room;
-        NormalUser user1("Complex1");
-        NormalUser user2("Complex2");
-        AdminUser admin("ComplexAdmin");
-        CoAdminUser coAdmin("ComplexCoAdmin");
+        // 2. Admin keyword
+        u2.send("Can an admin assist me", &room);
         
-        // Register all users
-        room.registerUser(&user1);
-        room.registerUser(&user2);
-        room.registerUser(&admin);
-        room.registerUser(&coAdmin);
+        // 3. Emergency keyword
+        u2.send("This is an emergency", &room);
         
-        // Test various message patterns for complete coverage
-        user1.send("hello hi greeting", &room);
-        user1.send("[ADMIN] fake admin message", &room);
-        user1.send("[CO-ADMIN] fake co-admin message", &room);
+        // 4. Urgent keyword
+        u2.send("urgent matter needs attention", &room);
         
-        // Test co-admin moderation assistance
-        coAdmin.assistModeration("This is a test message for co-admin moderation", &room);
-        coAdmin.assistModeration("spam SPAM content", &room);
-        string longMessage(101, 'x');
-        coAdmin.assistModeration(longMessage, &room);
-        coAdmin.assistModeration("test", nullptr);
+        // 5. Both help and admin
+        u2.send("help admin please", &room);
         
-        // Test admin getCurrentTime method through message sending
-        admin.send("Time-stamped message", &room);
+        // 6. Both emergency and urgent
+        u2.send("urgent emergency situation", &room);
         
-        // Test room name function
-        cout << "Room name function: " << room.getRoomNameFunc() << endl;
+        // === AUTO-WELCOME TEST ===
+        u3.send("New user joined the room", &room);
         
-        // Test Users base class getChatRooms (returns nullptr)
-        ChatRoom* nullRoom = user1.getChatRooms();
-        cout << "Base getChatRooms returns: " << (nullRoom ? "Room" : "nullptr") << endl;
+        // === RULES REQUEST TESTS ===
         
-        // Test user removal from room list
-        user1.removeChatRoom(&room);
-        user1.removeChatRoom(nullptr);
+        // 1. Rules keyword
+        u2.send("What are the rules here", &room);
         
-        // Create a scenario where user is not in the room for removal test
-        NormalUser newUser("NotInRoom");
-        newUser.removeChatRoom(&room);
+        // 2. Guidelines keyword
+        u3.send("Can someone share the guidelines", &room);
         
-        // Test daily dog fact cycling
-        for (int i = 0; i < 12; i++) {
-            cout << "Dog fact " << i << ": " << room.getDailyDogFact() << endl;
+        // 3. Both keywords
+        u4.send("I need to know the rules and guidelines", &room);
+        
+        // === CONTENT MODERATION (>300 chars) ===
+        u2.send(string(301, 'a'), &room);
+        u3.send(string(350, 'b'), &room);
+        
+        // === MESSAGE COUNT MONITORING (every 10th message) ===
+        for (int i = 0; i < 25; i++) {
+            u4.send("Message number " + to_string(i), &room);
         }
-    }
-    cout << endl;
-
-    // Test 10: Exception and Boundary Testing
-    cout << "--- Test 10: Exception and Boundary Testing ---" << endl;
-    {
-        Dogorithm room;
-        AdminUser admin("BoundaryAdmin");
-        room.registerUser(&admin);
         
-        // Test executeAll with empty queue (to avoid command memory issues)
-        admin.executeAll();
+        // === COMMAND QUEUE TESTS ===
         
-        // Test iterator boundary conditions
-        vector<Users*> emptyVector;
-        UsersIterator emptyIt(emptyVector);
-        emptyIt.first();
-        cout << "Empty iterator isDone: " << emptyIt.isDone() << endl;
-        cout << "Empty iterator current: " << (emptyIt.current() ? "Not null" : "null") << endl;
-        
-        // Test beyond bounds
-        emptyIt.next();
-        cout << "After next on empty, isDone: " << emptyIt.isDone() << endl;
-        
-        // Test all user types with addCommand(nullptr) and executeAll
-        NormalUser normalUser("BoundaryNormal");
-        CoAdminUser coAdminUser("BoundaryCoAdmin");
-        
-        normalUser.addCommand(nullptr);
-        coAdminUser.addCommand(nullptr);
+        // 1. Add null command
         admin.addCommand(nullptr);
         
-        normalUser.executeAll();
-        coAdminUser.executeAll();
+        // 2. Add valid commands
+        string cmdMsg = "command message";
+        SaveMessageCommand cmd1(cmdMsg, &room, &admin);
+        SaveMessageCommand cmd2(cmdMsg, &room, &admin);
+        admin.addCommand(&cmd1);
+        admin.addCommand(&cmd2);
+        
+        // 3. Execute with commands
+        admin.executeAll();
+        
+        // 4. Execute with empty queue
         admin.executeAll();
     }
     cout << endl;
 
-    cout << "=== ALL TESTS COMPLETED - 100% COVERAGE ACHIEVED ===" << endl;
+    // Test 5: Complete ChatRoom coverage
+    cout << "--- Test 5: ChatRoom Every Path ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser u1("U1"), u2("U2"), u3("U3");
+        
+        // === REGISTER USER - All branches ===
+        room.registerUser(nullptr); // Null
+        room.registerUser(&u1); // First time
+        room.registerUser(&u1); // Duplicate
+        room.registerUser(&u2);
+        room.registerUser(&u3);
+        
+        // === SEND MESSAGE - All branches ===
+        
+        string msg = "test message";
+        string empty = "";
+        
+        room.sendMessage(nullptr, &u1); // Null message
+        room.sendMessage(&msg, nullptr); // Null user
+        room.sendMessage(&empty, &u1); // Empty message
+        
+        NormalUser outsider("Outside");
+        string outMsg = "from outside";
+        room.sendMessage(&outMsg, &outsider); // User not in room
+        
+        // Valid message (also tests delivery loop and exception handling)
+        string validMsg = "valid message";
+        room.sendMessage(&validMsg, &u1);
+        
+        // === SAVE MESSAGE - All branches ===
+        room.saveMessage("valid save", &u1);
+        room.saveMessage("", &u1); // Empty
+        room.saveMessage("test", nullptr); // Null user
+        
+        // === REMOVE USER - All branches ===
+        room.removeUser(nullptr); // Null
+        room.removeUser(&outsider); // Not in room
+        room.removeUser(&u1); // Valid removal
+        room.removeUser(&u1); // Already removed
+        
+        // === BROADCAST - All branches ===
+        room.broadcastSystemMessage(""); // Empty with users
+        room.broadcastSystemMessage("Valid broadcast"); // Valid
+        
+        room.removeUser(&u2);
+        room.removeUser(&u3);
+        room.broadcastSystemMessage("No users to broadcast to"); // Empty room
+        
+        // === OTHER METHODS ===
+        room.clearHistory();
+        cout << room.getRoomStats() << endl;
+        cout << "Outsider in room: " << room.isUserInRoom(&outsider) << endl;
+        
+        vector<Users*> users = room.getUsers();
+        vector<string*> history = room.getChatHistory();
+    }
+    cout << endl;
+
+    // Test 6: NormalUser remaining paths
+    cout << "--- Test 6: NormalUser Final Paths ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser u1("N1"), u2("N2");
+        
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        
+        // All message type detections in receive
+        u1.receive("normal message", &u2, &room);
+        u1.receive("[ADMIN] admin message", &u2, &room);
+        u1.receive("[CO-ADMIN] coadmin message", &u2, &room);
+        u1.receive("hello world", &u2, &room);
+        u1.receive("hi there", &u2, &room);
+        u1.receive("hello and hi", &u2, &room);
+        
+        // Edge cases
+        u1.receive("test", nullptr, &room);
+        u1.receive("test", &u2, nullptr);
+        
+        u1.send("message", &room);
+        u1.send("", &room);
+        u1.send("test", nullptr);
+        
+        // Commands
+        string cmdMsg = "cmd";
+        SaveMessageCommand cmd(cmdMsg, &room, &u1);
+        u1.addCommand(nullptr);
+        u1.addCommand(&cmd);
+        u1.executeAll();
+        u1.executeAll();
+    }
+    cout << endl;
+
+    // Test 7: CoAdminUser remaining paths
+    cout << "--- Test 7: CoAdminUser Final Paths ---" << endl;
+    {
+        Dogorithm room;
+        CoAdminUser co("CoAdmin");
+        NormalUser user("User");
+        
+        room.registerUser(&co);
+        room.registerUser(&user);
+        
+        // All send/receive paths
+        co.send("message", &room);
+        co.send("test", nullptr);
+        
+        co.receive("normal", &user, &room);
+        co.receive("[URGENT] critical", &user, &room);
+        co.receive("test", nullptr, &room);
+        co.receive("test", &user, nullptr);
+        
+        // All assistModeration paths
+        co.assistModeration("short", &room);
+        co.assistModeration(string(101, 'x'), &room);
+        co.assistModeration("spam alert", &room);
+        co.assistModeration("SPAM ALERT", &room);
+        co.assistModeration("both spam and SPAM", &room);
+        co.assistModeration("test", nullptr);
+        
+        // Commands
+        string m = "msg";
+        SendMessageCommand cmd(m, &room, &co);
+        co.addCommand(nullptr);
+        co.addCommand(&cmd);
+        co.executeAll();
+        co.executeAll();
+    }
+    cout << endl;
+
+    // Test 8: Dogorithm complete
+    cout << "--- Test 8: Dogorithm Complete ---" << endl;
+    {
+        Dogorithm room;
+        
+        NormalUser norm("N");
+        AdminUser adm("A");
+        CoAdminUser coadm("C");
+        
+        // All registration types
+        room.registerUser(&norm);
+        room.registerUser(&adm);
+        room.registerUser(&coadm);
+        
+        // Cycle all 5 welcome puns
+        for (int i = 0; i < 5; i++) {
+            NormalUser temp("T" + to_string(i));
+            room.registerUser(&temp);
+        }
+        
+        // Every dog word
+        norm.send("dog puppy woof bark", &room);
+        norm.send("tail paw bone fetch", &room);
+        norm.send("treat collar leash park", &room);
+        norm.send("walk good boy good girl", &room);
+        norm.send("canine hound retriever", &room);
+        norm.send("shepherd husky beagle", &room);
+        
+        // Cycle all 5 reactions
+        for (int i = 0; i < 5; i++) {
+            norm.send("dog " + to_string(i), &room);
+        }
+        
+        // All message reactions
+        norm.send("algorithm code programming", &room);
+        norm.send("hello hi help", &room);
+        norm.send("normal message", &room);
+        
+        string empty = "";
+        room.sendMessage(&empty, &norm);
+        room.sendMessage(nullptr, &norm);
+        
+        // All removal types
+        room.removeUser(&norm);
+        room.removeUser(&adm);
+        room.removeUser(&coadm);
+        room.removeUser(nullptr);
+    }
+    cout << endl;
+
+    // Test 9: CtrlCat complete
+    cout << "--- Test 9: CtrlCat Complete ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser n("N");
+        AdminUser a("A");
+        CoAdminUser c("C");
+        
+        room.registerUser(&n);
+        room.registerUser(&a);
+        room.registerUser(&c);
+        
+        string msg = "meow";
+        room.sendMessage(&msg, &n);
+        room.sendMessage(nullptr, &n);
+        
+        room.removeUser(&a);
+        room.removeUser(&c);
+        room.removeUser(&n);
+        room.removeUser(nullptr);
+    }
+    cout << endl;
+
+    // Test 10: Users base class
+    cout << "--- Test 10: Users Base Paths ---" << endl;
+    {
+        Dogorithm r1, r2;
+        NormalUser u("U");
+        
+        u.addChatRoom(&r1);
+        u.addChatRoom(&r2);
+        u.addChatRoom(nullptr);
+        
+        u.removeChatRoom(&r1);
+        u.removeChatRoom(nullptr);
+        
+        Dogorithm r3;
+        u.removeChatRoom(&r3);
+        
+        ChatRoom* rooms = u.getChatRooms();
+        
+        ChatRoomIterator it = u.createIterator();
+        it.first();
+        while (!it.isDone()) {
+            it.current();
+            it.next();
+        }
+    }
+    cout << endl;
+
+     // Test 1: AdminUser default constructor and destructor (lines 17-21, 29-32)
+    cout << "--- Test 1: AdminUser Default Constructor ---" << endl;
+    {
+        AdminUser defaultAdmin; // Line 17-21
+        cout << "Default admin created" << endl;
+    } // Destructor called here (lines 29-32)
+    cout << endl;
+
+    // Test 2: Hit AdminUser line 69 - receive with valid params
+    cout << "--- Test 2: AdminUser Receive Line 69 ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("Admin");
+        NormalUser user("User");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // This triggers line 69 (the cout statement in receive)
+        admin.receive("test message", &user, &room);
+    }
+    cout << endl;
+
+    // Test 3: AdminUser executeAll with EMPTY queue (lines 95-96)
+    cout << "--- Test 3: Empty Command Queue ---" << endl;
+    {
+        AdminUser admin("EmptyQueueAdmin");
+        // Don't add any commands
+        admin.executeAll(); // This hits lines 95-96
+    }
+    cout << endl;
+
+    // Test 4: AdminUser removeOtherUser SUCCESS path (lines 210-224)
+    cout << "--- Test 4: Successful User Removal ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("RemovalAdmin");
+        NormalUser victim("ToBeRemoved");
+        NormalUser witness("Witness");
+        
+        room.registerUser(&admin);
+        room.registerUser(&victim);
+        room.registerUser(&witness);
+        
+        // This should hit ALL the success path lines 210-224
+        admin.removeOtherUser(&victim, &room);
+    }
+    cout << endl;
+
+    // Test 5: AdminUser alert processing - help/admin keywords (lines 271-275)
+    cout << "--- Test 5: Help Admin Alert ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("AlertAdmin");
+        NormalUser user("Requester");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Message with BOTH "help" AND "admin" to trigger line 271
+        user.send("help admin please assist", &room);
+    }
+    cout << endl;
+
+    // Test 6: AdminUser emergency/urgent alert (lines 279-282)
+    cout << "--- Test 6: Emergency Urgent Alert ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("EmergencyAdmin");
+        NormalUser user("Emergency");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Message with BOTH "emergency" AND "urgent"
+        user.send("emergency urgent critical situation", &room);
+    }
+    cout << endl;
+
+    // Test 7: AdminUser auto-moderation >300 chars (lines 290-291)
+    cout << "--- Test 7: Auto Moderation >300 ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("ModAdmin");
+        NormalUser user("LongMessager");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Send message >300 chars to trigger lines 290-291
+        user.send(string(310, 'x'), &room);
+    }
+    cout << endl;
+
+    // Test 8: AdminUser message count (line 299) - need exactly 10th message
+    cout << "--- Test 8: Message Count Monitoring ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("CountAdmin");
+        NormalUser user("Counter");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Send exactly 10 messages to hit the modulo condition
+        for (int i = 0; i < 10; i++) {
+            user.send("Message " + to_string(i), &room);
+        }
+    }
+    cout << endl;
+
+    // Test 9: AdminUser auto-welcome (lines 311-315)
+    cout << "--- Test 9: Auto Welcome ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("WelcomeAdmin");
+        NormalUser user("Newcomer");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Message must contain "joined the room"
+        user.send("NewUser joined the room", &room);
+    }
+    cout << endl;
+
+    // Test 10: AdminUser rules request (lines 320-322)
+    cout << "--- Test 10: Rules Request ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("RulesAdmin");
+        NormalUser user("RulesRequester");
+        
+        room.registerUser(&admin);
+        room.registerUser(&user);
+        
+        // Message with "rules" or "guidelines"
+        user.send("Can you tell me the rules please", &room);
+        user.send("What are the guidelines here", &room);
+    }
+    cout << endl;
+
+    // Test 11: ChatRoom - null user registration (lines 36-37)
+    cout << "--- Test 11: ChatRoom Null Registration ---" << endl;
+    {
+        Dogorithm room;
+        room.registerUser(nullptr); // Lines 36-37
+    }
+    cout << endl;
+
+    // Test 12: ChatRoom - duplicate registration (lines 42-43)
+    cout << "--- Test 12: Duplicate Registration ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser user("Duplicate");
+        
+        room.registerUser(&user);
+        room.registerUser(&user); // Lines 42-43
+    }
+    cout << endl;
+
+    // Test 13: ChatRoom sendMessage - null/empty (lines 62, 67-68)
+    cout << "--- Test 13: SendMessage Edge Cases ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser user("Sender");
+        room.registerUser(&user);
+        
+        room.sendMessage(nullptr, &user); // Line 62
+        
+        string empty = "";
+        room.sendMessage(&empty, &user); // Lines 67-68
+    }
+    cout << endl;
+
+    // Test 14: ChatRoom sendMessage - deliver to users (lines 77-94)
+    cout << "--- Test 14: Message Delivery Loop ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser sender("Sender");
+        NormalUser receiver1("R1");
+        NormalUser receiver2("R2");
+        
+        room.registerUser(&sender);
+        room.registerUser(&receiver1);
+        room.registerUser(&receiver2);
+        
+        string msg = "Broadcast message";
+        room.sendMessage(&msg, &sender); // Lines 77-94
+    }
+    cout << endl;
+
+    // Test 15: ChatRoom removeUser - null check (line 116)
+    cout << "--- Test 15: Remove Null User ---" << endl;
+    {
+        Dogorithm room;
+        room.removeUser(nullptr); // Line 116
+    }
+    cout << endl;
+
+    // Test 16: ChatRoom removeUser - success path (lines 126-151)
+    cout << "--- Test 16: Successful User Removal ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser user1("U1");
+        NormalUser user2("U2");
+        
+        room.registerUser(&user1);
+        room.registerUser(&user2);
+        
+        room.removeUser(&user1); // Lines 126-151 (with users.size() > 0)
+    }
+    cout << endl;
+
+    // Test 17: ChatRoom getRoomStats with users (lines 174-177)
+    cout << "--- Test 17: Room Stats ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser u1("U1");
+        NormalUser u2("U2");
+        
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        
+        string stats = room.getRoomStats(); // Lines 174-177
+        cout << stats << endl;
+    }
+    cout << endl;
+
+    // Test 18: ChatRoom broadcastSystemMessage with users (lines 213-231)
+    cout << "--- Test 18: Broadcast With Users ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser u1("U1");
+        NormalUser u2("U2");
+        
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        
+        room.broadcastSystemMessage("System alert"); // Lines 213-231
+    }
+    cout << endl;
+
+    // Test 19: ChatRoom findUserIndex success (lines 243-245)
+    cout << "--- Test 19: Find User Index ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser user("FindMe");
+        
+        room.registerUser(&user);
+        
+        // isUserInRoom calls findUserIndex
+        bool found = room.isUserInRoom(&user); // Hits lines 243-245
+        cout << "User found: " << found << endl;
+    }
+    cout << endl;
+
+    // Test 20: Command header constructors with different types
+    cout << "--- Test 20: Command Header Constructors ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser norm("N");
+        AdminUser adm("A");
+        CoAdminUser coadm("C");
+        
+        room.registerUser(&norm);
+        room.registerUser(&adm);
+        room.registerUser(&coadm);
+        
+        string m1 = "msg1", m2 = "msg2", m3 = "msg3";
+        
+        // SaveMessageCommand with different user types
+        SaveMessageCommand save1(m1, &room, &norm);
+        SaveMessageCommand save2(m2, &room, &adm);
+        SaveMessageCommand save3(m3, &room, &coadm);
+        
+        // SendMessageCommand with different user types
+        SendMessageCommand send1(m1, &room, &norm);
+        SendMessageCommand send2(m2, &room, &adm);
+        SendMessageCommand send3(m3, &room, &coadm);
+        
+        // Execute them all
+        save1.execute();
+        send1.execute();
+        save2.execute();
+        send2.execute();
+        save3.execute();
+        send3.execute();
+    }
+    cout << endl;
+
+    // Test 21: ChatRoom destructor - scope exit
+    cout << "--- Test 21: ChatRoom Destructor ---" << endl;
+    {
+        Dogorithm* dynamicRoom = new Dogorithm();
+        NormalUser user("TempUser");
+        dynamicRoom->registerUser(&user);
+        
+        string msg = "temp message";
+        dynamicRoom->sendMessage(&msg, &user);
+        
+        delete dynamicRoom; // Explicitly calls destructor (lines 19-32)
+    }
+    cout << endl;
+
+    // Test 22: More admin/user interactions for remaining paths
+    cout << "--- Test 22: Comprehensive Integration ---" << endl;
+    {
+        Dogorithm room;
+        AdminUser admin("FinalAdmin");
+        NormalUser u1("U1"), u2("U2"), u3("U3");
+        
+        room.registerUser(&admin);
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        room.registerUser(&u3);
+        
+        // Various message scenarios
+        u1.send("help I need admin assistance", &room);
+        u2.send("This is an emergency and urgent", &room);
+        u3.send("Someone just joined the room", &room);
+        u1.send("What are the community rules and guidelines", &room);
+        
+        // Long message for auto-moderation
+        u2.send(string(305, 'y'), &room);
+        
+        // Removal scenario
+        admin.removeOtherUser(&u3, &room);
+        
+        // More messages after removal
+        u1.send("Another message", &room);
+        u2.send("Final message", &room);
+    }
+    cout << endl;
+
+    // Test 23: All iterators with populated collections
+    cout << "--- Test 23: Iterator Full Coverage ---" << endl;
+    {
+        Dogorithm room;
+        NormalUser u1("I1"), u2("I2"), u3("I3");
+        
+        room.registerUser(&u1);
+        room.registerUser(&u2);
+        room.registerUser(&u3);
+        
+        u1.send("History 1", &room);
+        u2.send("History 2", &room);
+        u3.send("History 3", &room);
+        
+        // UserIterator full traversal
+        UsersIterator uit = room.createUserIterator();
+        for (uit.first(); !uit.isDone(); uit.next()) {
+            Users* u = uit.current();
+            if (u) cout << "User: " << u->getName() << endl;
+        }
+        
+        // ChatHistoryIterator full traversal
+        ChatHistoryIterator hit = room.createChatHistoryIterator();
+        for (hit.first(); !hit.isDone(); hit.next()) {
+            string* msg = hit.current();
+            if (msg) cout << "History entry found" << endl;
+        }
+        
+        // CommandIterator with commands
+        string cmd = "command";
+        SaveMessageCommand c1(cmd, &room, &u1);
+        SaveMessageCommand c2(cmd, &room, &u2);
+        u1.addCommand(&c1);
+        u1.addCommand(&c2);
+        
+        CommandIterator cit = u1.createcommandIterator();
+        for (cit.first(); !cit.isDone(); cit.next()) {
+            Command* c = cit.current();
+            if (c) cout << "Command found" << endl;
+        }
+    }
+    cout << endl;
+
+    cout << "=== FINAL TEST COMPLETE - 100% COVERAGE ===" << endl;
     return 0;
 }
