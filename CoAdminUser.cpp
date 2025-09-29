@@ -13,9 +13,9 @@
 #include "SendMessageCommand.h"
 #include <iostream>
 
-CoAdminUser::CoAdminUser() : Users("CoAdmin") {
+CoAdminUser::CoAdminUser() : Users("Def CoAdmin") {
     
-    name = "CoAdmin";
+    name = "Def CoAdmin";
     
     cout << "CoAdminUser created: " << name << endl;
 }

@@ -12,7 +12,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "Observer.h"
 #include "ChatRoomIterator.h"
 #include "CommandIterator.h"
 
@@ -29,7 +28,7 @@ using namespace std;
  * This class defines the interface for all user types (Admin, CoAdmin, Normal)
  * and implements the colleague role in the Mediator pattern.
  */
-class Users : public Observer
+class Users
 {
     protected:
         vector<ChatRoom *>chatRooms;
@@ -42,12 +41,10 @@ class Users : public Observer
         
         /**
          * @brief Update method from Observer pattern
-         * @param msg The notification message
-         * @param sender The sender's name
+         * @param fromUser[user who sent the message]
          */
-        void update(const string& msg, const string& sender) override {
-            cout << "[Observer] " << getName() << " received notification from " 
-                 << sender << ": " << msg << endl;
+        void update(const Users* fromUser)  {
+            cout << "[Observer] " << getName() << " received notification from " << fromUser->getName() << endl;
         }
 
         ChatRoomIterator createIterator()const;

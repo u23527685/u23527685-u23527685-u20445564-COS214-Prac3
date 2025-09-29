@@ -8,7 +8,6 @@
 #ifndef CTRLCAT_H
 #define CTRLCAT_H
 #include "ChatRoom.h"
-#include "Observer.h"
 class Users;
 /**
  * @class CtrlCat

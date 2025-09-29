@@ -15,7 +15,7 @@
 #include <algorithm>
 using namespace std;
 
-AdminUser::AdminUser() : Users()
+AdminUser::AdminUser() : Users("Deafult Admin")
 {
     cout << "AdminUser created with full privileges: " << name << endl;
     cout << "Admin capabilities:Moderation, User Management, Announcements" << endl;

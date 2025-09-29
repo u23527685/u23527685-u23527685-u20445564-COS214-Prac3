@@ -5,7 +5,7 @@
  * @date [2025-09-24]
  */
 
-#include <iostream>
+/*#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -54,12 +54,6 @@ int main()
     coCatAdmin->addChatRoom(&CatLoversRoom);
     NormalCatUser1->addChatRoom(&CatLoversRoom);
     
-    // Add observers
-    cout << "\n--- Adding Observers ---" << endl;
-    CatLoversRoom.addObserver(catAdmin);
-    CatLoversRoom.addObserver(coCatAdmin);
-    CatLoversRoom.addObserver(NormalCatUser1);
-    
 
     // Display registered users
     cout << "\n--- Registered Users ---" << endl;
@@ -97,11 +91,6 @@ int main()
     cout << "\n--- User Removal ---" << endl;
     // Remove user
     catAdmin->removeOtherUser(NormalCatUser1, &CatLoversRoom);
-    
-    // Remove observers
-    CatLoversRoom.removeObserver(NormalCatUser1);
-    CatLoversRoom.removeObserver(coCatAdmin);
-    CatLoversRoom.removeObserver(catAdmin);
 
     // Final room stats
     cout << "\n--- Final Room Stats ---" << endl;
@@ -115,3 +104,5 @@ int main()
     cout << "\n=== Testing Complete ===" << endl;
     return 0;
 }
+
+*/

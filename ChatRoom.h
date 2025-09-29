@@ -11,7 +11,6 @@
 
 #include <string>
 #include <vector>
-#include "Observer.h"
 
 class UsersIterator;
 class ChatHistoryIterator;
@@ -34,7 +33,6 @@ class ChatRoom {
 protected:
     vector<Users*> users;                    ///< [Dynamic array of user pointers]
     vector<string*> chatHistory;              ///< [Dynamic array of chat messages] 
-    vector<Observer*> observers; 
 private:
     
     /**
@@ -149,20 +147,12 @@ public:
      * @param message [The system message to broadcast]
      */
     virtual void broadcastSystemMessage(const string& message);
-    void addObserver(Observer* observer) {
-        observers.push_back(observer);
-    }
-    void removeObserver(Observer* observer) {
-        
-    for (size_t i = 0; i < observers.size(); ++i) {
-        if (observers[i] == observer) {
-            observers.erase(observers.begin() + i);
-            break;
-        }
-    }
 
-    }
-    void notifyObservers(const string& message, const string& username);
+    /**
+     * @brief[Notiyf users of new messages]
+     * @param fromUser[user who sent the message]
+     */
+    void notifyObservers(const Users* fromUser);
    
     
 };

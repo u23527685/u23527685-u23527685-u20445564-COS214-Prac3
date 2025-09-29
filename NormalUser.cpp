@@ -15,7 +15,6 @@
 using namespace std;
 
 NormalUser::NormalUser(): Users("NormalUser"){
-    name = "Default User";
     cout << "NormalUser created: " << name << endl;
 }
 

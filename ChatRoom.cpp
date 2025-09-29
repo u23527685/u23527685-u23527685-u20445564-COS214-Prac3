@@ -90,7 +90,9 @@ void ChatRoom::sendMessage(string* message, Users* fromUser) {
             
         }
     }
-    
+    if(deliveredCount>0){
+        notifyObservers(fromUser);
+    }
     cout << "Message delivered to " << deliveredCount << " users successfully" << endl;
 }
 
@@ -163,10 +165,11 @@ vector<string*> ChatRoom::getChatHistory() const {
 bool ChatRoom::isUserInRoom(Users* user) const {
     return findUserIndex(user) != -1;
 }
-void ChatRoom::notifyObservers(const string& message, const string& username) {
-    for (Observer* observer : observers) {
-        if (observer != nullptr) {
-            observer->update(message, username);
+
+void ChatRoom::notifyObservers(const Users* fromUser) {
+    for (Users* user : users) {
+        if (user != nullptr && user!=fromUser) {
+            user->update(fromUser);
         }
     }
 }
