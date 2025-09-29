@@ -27,7 +27,7 @@
 
 using namespace std;
 
-int main() {
+void runTest(){
     cout << "=== FINAL 100% COVERAGE TEST ===" << endl;
     cout << endl;
 
@@ -923,6 +923,159 @@ int main() {
     cout << endl;
 
     cout << "=== FINAL TEST COMPLETE - 100% COVERAGE ===" << endl;
+}
+
+void runDemo() {
+    cout << "=== Automated Demo: Chat System Showcase ===" << endl;
+
+    // 1) Create two themed chat rooms
+    CtrlCat catRoom;
+    Dogorithm dogRoom;
+    cout << "Created rooms: " << catRoom.getRoomName() << " and " << dogRoom.getRoomName() << endl;
+
+    // 2) Create users (stack objects, as requested)
+    AdminUser    admin("Alice");
+    CoAdminUser  coadmin("Bob");
+    NormalUser   user1("Charlie");
+    NormalUser   user2("Dana");
+
+    // 3) Register users to rooms
+    catRoom.registerUser(&admin);
+    catRoom.registerUser(&coadmin);
+    catRoom.registerUser(&user1);
+    catRoom.registerUser(&user2);
+
+    dogRoom.registerUser(&admin);
+    dogRoom.registerUser(&coadmin);
+    dogRoom.registerUser(&user1);
+    dogRoom.registerUser(&user2);
+
+    // Also link rooms to users (so their room iterators have content)
+    admin.addChatRoom(&catRoom);
+    admin.addChatRoom(&dogRoom);
+    coadmin.addChatRoom(&catRoom);
+    coadmin.addChatRoom(&dogRoom);
+    user1.addChatRoom(&catRoom);
+    user1.addChatRoom(&dogRoom);
+    user2.addChatRoom(&catRoom);
+    user2.addChatRoom(&dogRoom);
+
+    // 4) Iterate users in catRoom (UsersIterator)
+    {
+        cout << "\n-- Users in " << catRoom.getRoomName() << " --" << endl;
+        UsersIterator uit = catRoom.createUserIterator();
+        for (uit.first(); !uit.isDone(); uit.next()) {
+            Users* u = uit.current();
+            if (u) {
+                cout << "User[" << uit.getIndex() << "]: " << u->getName() << " (" << u->getUserType() << ")" << endl;
+            }
+        }
+    }
+
+    // 5) Queue commands (Send + Save) and then execute them for each user
+    //    We'll demonstrate both rooms to show command execution and room-specific behavior.
+    {
+        cout << "\n-- Queue and execute commands in " << catRoom.getRoomName() << " --" << endl;
+
+        // Prepare messages
+        string m1 = "hello cats!";
+        string m2 = "this will be saved to history";
+        string m3 = "[ADMIN] system notice for everyone";
+        string m4 = "[CO-ADMIN] reminder: be nice";
+
+        // Create command objects (stack) and add to each user's command queue
+        SendMessageCommand u1_send_cat(m1, &catRoom, &user1);
+        SaveMessageCommand u1_save_cat(m2, &catRoom, &user1);
+        user1.addCommand(&u1_send_cat);
+        user1.addCommand(&u1_save_cat);
+
+        SendMessageCommand u2_send_cat(m1, &catRoom, &user2);
+        SaveMessageCommand u2_save_cat(m2, &catRoom, &user2);
+        user2.addCommand(&u2_send_cat);
+        user2.addCommand(&u2_save_cat);
+
+        SendMessageCommand admin_send_cat(m3, &catRoom, &admin);
+        SaveMessageCommand admin_save_cat(m2, &catRoom, &admin);
+        admin.addCommand(&admin_send_cat);
+        admin.addCommand(&admin_save_cat);
+
+        SendMessageCommand co_send_cat(m4, &catRoom, &coadmin);
+        SaveMessageCommand co_save_cat(m2, &catRoom, &coadmin);
+        coadmin.addCommand(&co_send_cat);
+        coadmin.addCommand(&co_save_cat);
+
+        // Show commands queued for one user via CommandIterator (before execution)
+        {
+            cout << "Commands queued for " << user1.getName() << ":" << endl;
+            CommandIterator cit = user1.createcommandIterator();
+            for (cit.first(); !cit.isDone(); cit.next()) {
+                Command* c = cit.current();
+                cout << "  Command index " << cit.getIndex() << (c ? "" : " (null)") << endl;
+            }
+        }
+
+        // Execute all commands per user
+        admin.executeAll();
+        coadmin.executeAll();
+        user1.executeAll();
+        user2.executeAll();
+    }
+
+    // 6) Iterate chat history in catRoom (ChatHistoryIterator)
+    {
+        cout << "\n-- Chat history in " << catRoom.getRoomName() << " --" << endl;
+        ChatHistoryIterator hit = catRoom.createChatHistoryIterator();
+        for (hit.first(); !hit.isDone(); hit.next()) {
+            string* msg = hit.current();
+            cout << "History[" << hit.getIndex() << "]: " << (msg ? *msg : string("<null>")) << endl;
+        }
+        cout << "\nRoom stats:\n" << catRoom.getRoomStats() << endl;
+    }
+
+    // 7) Demonstrate direct sending on dogRoom using Users::send (bypassing command queue)
+    {
+        cout << "\n-- Direct sends in " << dogRoom.getRoomName() << " --" << endl;
+        admin.send("[ADMIN] please welcome new members", &dogRoom);
+        coadmin.send("[CO-ADMIN] enjoy dog memes!", &dogRoom);
+        user1.send("woof woof hello dog lovers", &dogRoom);
+        user2.send("dogs > cats? discuss!", &dogRoom);
+
+        // Iterate users in dogRoom
+        cout << "\nUsers in " << dogRoom.getRoomName() << ":" << endl;
+        UsersIterator uit2 = dogRoom.createUserIterator();
+        for (uit2.first(); !uit2.isDone(); uit2.next()) {
+            Users* u = uit2.current();
+            if (u) {
+                cout << "User[" << uit2.getIndex() << "]: " << u->getName() << " (" << u->getUserType() << ")" << endl;
+            }
+        }
+
+        // Iterate chat history of dogRoom
+        cout << "\nHistory of " << dogRoom.getRoomName() << ":" << endl;
+        ChatHistoryIterator hit2 = dogRoom.createChatHistoryIterator();
+        for (hit2.first(); !hit2.isDone(); hit2.next()) {
+            string* msg = hit2.current();
+            cout << "History[" << hit2.getIndex() << "]: " << (msg ? *msg : string("<null>")) << endl;
+        }
+    }
+
+    // 8) For a user, iterate their joined rooms (ChatRoomIterator)
+    {
+        cout << "\n-- Rooms joined by " << admin.getName() << " --" << endl;
+        ChatRoomIterator rit = admin.createIterator();
+        for (rit.first(); !rit.isDone(); rit.next()) {
+            ChatRoom* r = rit.current();
+            cout << "Room[" << rit.getIndex() << "]: " << (r ? r->getRoomName() : string("<null>")) << endl;
+        }
+    }
+
+    cout << "\n=== Demo complete ===" << endl;
+}
+
+
+int main() {
+    runDemo();
+    runTest();
     return 0;
 }
 
