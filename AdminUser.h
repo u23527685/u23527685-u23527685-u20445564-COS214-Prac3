@@ -24,12 +24,7 @@ class Command;
  * AdminUsers have special capabilities like moderating messages and managing users.
  */
 class AdminUser : public Users {
-    // Remove private members - they're inherited from Users base class
-    // private:
-    //     ChatRoom* chatRooms;     // Already in Users base class
-    //     string name;             // Already in Users base class  
-    //     Command* commandQueue;   // Already in Users base class
-
+   
 public:
     /**
      * @brief Default constructor for AdminUser
@@ -40,13 +35,17 @@ public:
      * @brief Constructor with name parameter
      * @param userName The name of the admin user
      */
-    AdminUser(const string& userName);
     
     /**
      * @brief Destructor
      */
     ~AdminUser();
+    AdminUser(const string& name);
     
+    void update(const string& message) {
+        cout << "[Observer] " << getName() << " received notification: " 
+             << message << endl;
+    }
     /**
      * @brief Send a message to a chat room (with admin prefix)
      * @param message The message to send
@@ -91,7 +90,7 @@ public:
      * @param user The user to remove
      * @param room The room to remove them from
      */
-    void removeOtherUser(Users* user, ChatRoom* room);
+    void removeUser(Users* user, ChatRoom* room);
     
     /**
      * @brief Announce a message to all users in room (admin privilege)

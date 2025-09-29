@@ -39,6 +39,7 @@ class Command{
          * @param fu the user who sent the message
          */
         Command(string m, ChatRoom* cr, Users* fu);
+        virtual ~Command() {}
 };
 
 #endif

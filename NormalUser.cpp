@@ -13,12 +13,12 @@
 
 using namespace std;
 
-NormalUser::NormalUser(){
+NormalUser::NormalUser(): Users("NormalUser"){
     name = "Default User";
     cout << "NormalUser created: " << name << endl;
 }
 
-NormalUser::NormalUser(const string& userName) {
+NormalUser::NormalUser(const string& userName): Users(userName){
     name = userName;
     cout << "NormalUser created: " << name << endl;
 }
