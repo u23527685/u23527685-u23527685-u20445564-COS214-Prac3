@@ -1,3 +1,4 @@
+
 /**
  * @file [AdminUser.h]
  * @brief [Admin user class with elevated privileges]

@@ -1,3 +1,4 @@
+
 /**
  * @file [ChatRoom.cpp]
  * @brief [Implementation of the ChatRoom class]
@@ -162,7 +163,13 @@ vector<string*> ChatRoom::getChatHistory() const {
 bool ChatRoom::isUserInRoom(Users* user) const {
     return findUserIndex(user) != -1;
 }
-
+void ChatRoom::notifyObservers(const string& message, const string& username) {
+    for (Observer* observer : observers) {
+        if (observer != nullptr) {
+            observer->update(message, username);
+        }
+    }
+}
 string ChatRoom::getRoomStats() const {
     string stats = getRoomName() + " Statistics:\n";
     stats += "Users: " + to_string(users.size()) + "\n";
@@ -246,4 +253,5 @@ int ChatRoom::findUserIndex(Users* user) const {
         }
     }
     return -1;
+
 }

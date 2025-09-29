@@ -1,3 +1,4 @@
+
 /**
  * @file [CtrlCat.cpp]
  * @brief [Implementation of CtrlCat chat room]
@@ -18,9 +19,25 @@ CtrlCat::~CtrlCat() {
 }
 
 void CtrlCat::registerUser(Users* user) {
-   ChatRoom::registerUser(user);
-    cout << user->getName() << " (" << user->getUserType()<< ") has joined CtrlCat!" << endl;
+    if (!user) return;
+
+    // Check if the user is already registered
+    bool exists = false;
+    for (size_t i = 0; i < users.size(); ++i) {
+        if (users[i] == user) {
+            exists = true;
+            break;
+        }
+    }
+
+    if (!exists) {
+        users.push_back(user);
+        cout << user->getName() << " (" << user->getUserType() << ") has joined CtrlCat!" << endl;
+    }
+
+    user->addChatRoom(this);
 }
+
 
 void CtrlCat::sendMessage(string* message, Users* fromUser) {
     if (message != nullptr && fromUser != nullptr) {
@@ -61,4 +78,5 @@ void CtrlCat::removeUser(Users* user) {
 
 string CtrlCat::getRoomName() const {
     return "CtrlCat";
+
 }

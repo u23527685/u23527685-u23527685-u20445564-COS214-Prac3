@@ -1,3 +1,4 @@
+
 /**
  * @file [ChatRoom.h]
  * @brief [Abstract class ChatRoom header file]
@@ -10,6 +11,7 @@
 
 #include <string>
 #include <vector>
+#include "Observer.h"
 
 class UsersIterator;
 class ChatHistoryIterator;
@@ -18,6 +20,7 @@ using namespace std;
 
 // Forward declaration to avoid circular dependency
 class Users;
+class Observer;
 
 /**
  * @class ChatRoom
@@ -31,7 +34,7 @@ class ChatRoom {
 protected:
     vector<Users*> users;                    ///< [Dynamic array of user pointers]
     vector<string*> chatHistory;              ///< [Dynamic array of chat messages] 
-
+    vector<Observer*> observers; 
 private:
     
     /**
@@ -146,6 +149,23 @@ public:
      * @param message [The system message to broadcast]
      */
     virtual void broadcastSystemMessage(const string& message);
+    void addObserver(Observer* observer) {
+        observers.push_back(observer);
+    }
+    void removeObserver(Observer* observer) {
+        
+    for (size_t i = 0; i < observers.size(); ++i) {
+        if (observers[i] == observer) {
+            observers.erase(observers.begin() + i);
+            break;
+        }
+    }
+
+    }
+    void notifyObservers(const string& message, const string& username);
+   
+    
 };
 
 #endif // CHATROOM_H
+

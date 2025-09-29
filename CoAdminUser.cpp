@@ -1,3 +1,4 @@
+
 /**
  * @file [CoAdminUser.cpp]
  * @brief [Implementation of CoAdminUser class]
@@ -12,14 +13,14 @@
 #include "SendMessageCommand.h"
 #include <iostream>
 
-CoAdminUser::CoAdminUser() {
+CoAdminUser::CoAdminUser() : Users("CoAdmin") {
     
-    name = "Default CoAdmin";
+    name = "CoAdmin";
     
     cout << "CoAdminUser created: " << name << endl;
 }
 
-CoAdminUser::CoAdminUser(const string& userName) {
+CoAdminUser::CoAdminUser(const string& userName): Users(userName) {
     
     name = userName;
     
@@ -110,4 +111,5 @@ void CoAdminUser::assistModeration(const string& message, ChatRoom* room) {
     } else {
         cout << "Cannot assist moderation - room is null!" << endl;
     }
+
 }

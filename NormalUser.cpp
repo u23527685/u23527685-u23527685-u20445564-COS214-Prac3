@@ -1,3 +1,4 @@
+
 /**
  * @file [NormalUser.cpp]
  * @brief [Implementation of NormalUser class]
@@ -13,12 +14,12 @@
 
 using namespace std;
 
-NormalUser::NormalUser(){
+NormalUser::NormalUser(): Users("NormalUser"){
     name = "Default User";
     cout << "NormalUser created: " << name << endl;
 }
 
-NormalUser::NormalUser(const string& userName) {
+NormalUser::NormalUser(const string& userName): Users(userName){
     name = userName;
     cout << "NormalUser created: " << name << endl;
 }
@@ -92,3 +93,4 @@ string NormalUser::getUserType() const {
 string NormalUser::getName() const {
     return name;
 }
+

@@ -1,3 +1,4 @@
+
 /**
  * @file [Dogorithm.cpp]
  * @brief [Implementation of Dogorithm chat room with dog-themed features]
@@ -201,20 +202,18 @@ void Dogorithm::reactToDogMessage(const string& message, Users* fromUser) {
     
     cout << "MAXIMUM DOG EXCITEMENT ACTIVATED!" << endl;
     
-    string reactions[] = {
-        "WOOF WOOF! " + fromUser->getName() + " knows their dog facts!",
-        "Great dog reference, " + fromUser->getName() + "!",
-        "The pack approves of " + fromUser->getName() + "'s canine wisdom!",
-        "More dog talk, please!",
-        fromUser->getName() + " gets extra treats for the dog mention!"
-    };
+    string reaction;
     
-    static int reactionIndex = 0;
-    string reaction = reactions[reactionIndex % 5];
-    reactionIndex++;
-    
+    if (message.find("dog") != string::npos || message.find("puppy") != string::npos) {
+        reaction = fromUser->getName() + " loves dogs! Everyone cheer!";
+    } else if (message.find("cat") != string::npos) {
+        reaction = "Wait… " + fromUser->getName() + " mentioned a cat! Dogs are confused!";
+    } else {
+        reaction = fromUser->getName() + " says: \"" + message + "\". Interesting!";
+    }
+
     broadcastSystemMessage(reaction);
     
-    string recognition = fromUser->getName() + " earned the 'Good Human' badge for dog appreciation!";
+    string recognition = fromUser->getName() + " earned the 'Good Human' badge for messaging!";
     cout << recognition << endl;
 }

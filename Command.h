@@ -1,3 +1,4 @@
+
 /**
  * @file [Command.h]
  * @brief [Abstract base class header implementation for all Command types in the chat system]
@@ -40,5 +41,4 @@ class Command{
          */
         Command(string m, ChatRoom* cr, Users* fu);
 };
-
 #endif

@@ -1,71 +1,78 @@
+
 /**
  * @file [Users.cpp]
- * @brief [Implementation of the abstract Users base class]
- * @author [Marodi Jessica, Okaile Gaesale]
+ * @brief [Implementation of the abstract Users base class for all user types]
+ * @author [Marodi Jessica]
  * @date [2025-09-24]
  */
+
 #include "Users.h"
-#include "Command.h"
 #include "ChatRoom.h"
-#include "CommandIterator.h"
 #include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <list>
 
-using namespace std;
+// Constructor
+Users::Users(const std::string &userName) : name(userName) {}
 
-ChatRoomIterator Users::createIterator()const{
-    return ChatRoomIterator(chatRooms);
-}
+// Virtual destructor
+Users::~Users() {}
 
-Users::Users() {
-    name = "Default User";
-    cout << "Base User created: " << name << endl;
-}
-
-Users::Users(const string& userName) {
-    name = userName;
-    cout << "Base User created: " << name << endl;
-}
-
-Users::~Users() {
-   // destruct vectors
-    chatRooms.clear();
-    commandQueue.clear();
-    cout << "User " << name << " destroyed" << endl;
-}
-
-string Users::getName() const {
+// Return user's name
+std::string Users::getName() const {
     return name;
 }
 
-void Users::addChatRoom(ChatRoom* room) {
-    if (room != nullptr) {
-        chatRooms.push_back(room);
-        cout << "User " << name << " added to room: "<<room->getRoomNameFunc() << endl;
-    } else {
-        cout << "Cannot add null chat room for user " << name << endl;
-    }
-}
+// Add a chat room to the user's list
+void Users::addChatRoom(ChatRoom *room) {
+    if (!room) return;
 
-void Users::removeChatRoom(ChatRoom* room) {
-    if(room==nullptr){
-        cout << "Cannot remove null chat room for user " << name << endl;
-        return;
-    }
-    auto roomsIterator=createIterator();
-    for(roomsIterator.first();!roomsIterator.isDone();roomsIterator.next()){
-        ChatRoom* currroom=roomsIterator.current();
-        if(currroom==room){
-            chatRooms.erase(chatRooms.begin()+roomsIterator.getIndex());
-            cout << "User " << name << " removed from room: " << room->getRoomName() << endl;
+    bool exists = false;
+    for (size_t i = 0; i < chatRooms.size(); ++i) {
+        if (chatRooms[i] == room) {
+            exists = true;
+            break;
         }
     }
-    cout << "User " << name << " is not in room: " << room->getRoomName() << endl;
+
+    if (!exists) {
+        chatRooms.push_back(room);
+    }
 }
 
+
+// Remove a chat room from the user's list
+void Users::removeChatRoom(ChatRoom *room) {
+    if (!room) return;
+    for (size_t i = 0; i < chatRooms.size(); ++i) {
+        if (chatRooms[i] == room) {
+            // Remove element manually
+            for (size_t j = i; j < chatRooms.size() - 1; ++j) {
+                chatRooms[j] = chatRooms[j + 1];
+            }
+            chatRooms.pop_back();
+            break;
+        }
+    }
+}
+
+// Return the user's chat rooms (example: first room)
 ChatRoom* Users::getChatRooms() const {
+    if (!chatRooms.empty()) {
+        return chatRooms.front();
+    }
     return nullptr;
 }
 
+// Create a chat room iterator
+ChatRoomIterator Users::createIterator() const {
+    return ChatRoomIterator(chatRooms);
+}
+
+// Create a command iterator
 CommandIterator Users::createcommandIterator() const {
     return CommandIterator(commandQueue);
 }
+
