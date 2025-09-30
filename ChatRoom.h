@@ -149,7 +149,7 @@ public:
     virtual void broadcastSystemMessage(const string& message);
 
     /**
-     * @brief[Notiyf users of new messages]
+     * @brief[Notify users of new messages]
      * @param fromUser[user who sent the message]
      */
     void notifyObservers(const Users* fromUser);

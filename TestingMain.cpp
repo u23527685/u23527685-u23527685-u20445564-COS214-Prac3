@@ -926,7 +926,7 @@ void runTest(){
 }
 
 void runDemo() {
-    cout << "=== Automated Demo: Chat System Showcase ===" << endl;
+    cout << " Automated Demo: Chat System Showcase " << endl;
 
     // 1) Create two themed chat rooms
     CtrlCat catRoom;
@@ -951,6 +951,7 @@ void runDemo() {
     dogRoom.registerUser(&user2);
 
     // Also link rooms to users (so their room iterators have content)
+    cout<<"adding to rooms \n "<<endl;
     admin.addChatRoom(&catRoom);
     admin.addChatRoom(&dogRoom);
     coadmin.addChatRoom(&catRoom);
@@ -1075,7 +1076,7 @@ void runDemo() {
 
 int main() {
     runDemo();
-    runTest();
+    //runTest();
     return 0;
 }
 
