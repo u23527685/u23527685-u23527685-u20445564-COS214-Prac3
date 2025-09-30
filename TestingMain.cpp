@@ -27,9 +27,606 @@
 
 using namespace std;
 
+void printSeparator(const string& title = "") {
+    cout << "\n" << string(70, '=') << endl;
+    if (!title.empty()) {
+        cout << "  " << title << endl;
+        cout << string(70, '=') << endl;
+    }
+}
+
+void demonstrateUserCreation() {
+    printSeparator("DEMO 1: USER CREATION");
+    
+    cout << "\n--- Creating Different User Types ---\n" << endl;
+    
+    AdminUser* admin = new AdminUser("Alice");
+    CoAdminUser* coAdmin = new CoAdminUser("Bob");
+    NormalUser* user1 = new NormalUser("Charlie");
+    NormalUser* user2 = new NormalUser("Diana");
+    NormalUser* user3 = new NormalUser("Eve");
+    
+    cout << "\nUsers created successfully!" << endl;
+    cout << "Admin: " << admin->getName() << " (" << admin->getUserType() << ")" << endl;
+    cout << "Co-Admin: " << coAdmin->getName() << " (" << coAdmin->getUserType() << ")" << endl;
+    cout << "Normal Users: " << user1->getName() << ", " << user2->getName() << ", " << user3->getName() << endl;
+    
+    delete admin;
+    delete coAdmin;
+    delete user1;
+    delete user2;
+    delete user3;
+}
+
+void demonstrateChatRoomCreation() {
+    printSeparator("DEMO 2: CHAT ROOM CREATION");
+    
+    cout << "\n--- Creating Chat Rooms ---\n" << endl;
+    
+    Dogorithm* dogRoom = new Dogorithm();
+    cout << "\n";
+    CtrlCat* catRoom = new CtrlCat();
+    
+    cout << "\nChat rooms created!" << endl;
+    cout << "Room 1: " << dogRoom->getRoomName() << endl;
+    cout << "Room 2: " << catRoom->getRoomName() << endl;
+    
+    delete dogRoom;
+    delete catRoom;
+}
+
+void demonstrateUserRegistration() {
+    printSeparator("DEMO 3: USER REGISTRATION IN ROOMS");
+    
+    Dogorithm* dogRoom = new Dogorithm();
+    CtrlCat* catRoom = new CtrlCat();
+    
+    AdminUser* admin = new AdminUser("Admin_Alex");
+    CoAdminUser* coAdmin = new CoAdminUser("CoAdmin_Blake");
+    NormalUser* user1 = new NormalUser("User_Chris");
+    NormalUser* user2 = new NormalUser("User_Dana");
+    
+    cout << "\n--- Registering Users in Dogorithm ---\n" << endl;
+    dogRoom->registerUser(admin);
+    dogRoom->registerUser(coAdmin);
+    dogRoom->registerUser(user1);
+    
+    cout << "\n--- Registering Users in CtrlCat ---\n" << endl;
+    catRoom->registerUser(admin);
+    catRoom->registerUser(user2);
+    
+    cout << "\n--- Attempting Duplicate Registration ---\n" << endl;
+    dogRoom->registerUser(user1);  // Should show already registered
+    
+    delete dogRoom;
+    delete catRoom;
+    delete admin;
+    delete coAdmin;
+    delete user1;
+    delete user2;
+}
+
+void demonstrateMessaging() {
+    printSeparator("DEMO 4: MESSAGE SENDING & RECEIVING");
+    
+    Dogorithm* room = new Dogorithm();
+    
+    AdminUser* admin = new AdminUser("Admin_Morgan");
+    CoAdminUser* coAdmin = new CoAdminUser("CoAdmin_Riley");
+    NormalUser* user1 = new NormalUser("User_Sam");
+    NormalUser* user2 = new NormalUser("User_Taylor");
+    
+    room->registerUser(admin);
+    room->registerUser(coAdmin);
+    room->registerUser(user1);
+    room->registerUser(user2);
+    
+    cout << "\n--- Normal User Sending Message ---\n" << endl;
+    user1->send("Hello everyone! Great to be here!", room);
+    
+    cout << "\n--- Admin Sending Official Message ---\n" << endl;
+    admin->send("Welcome to our community! Please follow the rules.", room);
+    
+    cout << "\n--- Co-Admin Sending Message ---\n" << endl;
+    coAdmin->send("I'm here to help if anyone needs assistance!", room);
+    
+    cout << "\n--- Dog-Themed Message (Dogorithm Special) ---\n" << endl;
+    user2->send("I love dogs! My puppy is so cute!", room);
+    
+    delete room;
+    delete admin;
+    delete coAdmin;
+    delete user1;
+    delete user2;
+}
+
+void demonstrateAdminFunctions() {
+    printSeparator("DEMO 5: ADMIN PRIVILEGES");
+    
+    Dogorithm* room = new Dogorithm();
+    
+    AdminUser* admin = new AdminUser("SuperAdmin");
+    NormalUser* user1 = new NormalUser("GoodUser");
+    NormalUser* user2 = new NormalUser("SpamUser");
+    
+    room->registerUser(admin);
+    room->registerUser(user1);
+    room->registerUser(user2);
+    
+    cout << "\n--- Admin Making Announcement ---\n" << endl;
+    admin->makeAnnouncement("Server maintenance scheduled for tonight at 10 PM", room);
+    
+    cout << "\n--- Admin Moderating Content ---\n" << endl;
+    string spamMessage = "Buy now! Click here! spam spam spam promotional content";
+    admin->moderateMessage(spamMessage, room);
+    
+    cout << "\n--- Admin Removing User ---\n" << endl;
+    admin->removeOtherUser(user2, room);
+    
+    cout << "\n--- Viewing Room Stats ---\n" << endl;
+    cout << room->getRoomStats() << endl;
+    
+    delete room;
+    delete admin;
+    delete user1;
+    delete user2;
+}
+
+void demonstrateCommandPattern() {
+    printSeparator("DEMO 6: COMMAND PATTERN");
+    
+    Dogorithm* room = new Dogorithm();
+    NormalUser* user = new NormalUser("CommandUser");
+    
+    room->registerUser(user);
+    
+    cout << "\n--- Creating and Queuing Commands ---\n" << endl;
+    
+    Command* cmd1 = new SendMessageCommand("First message", room, user);
+    Command* cmd2 = new SaveMessageCommand("Saved message", room, user);
+    Command* cmd3 = new SendMessageCommand("Second message", room, user);
+    
+    user->addCommand(cmd1);
+    user->addCommand(cmd2);
+    user->addCommand(cmd3);
+    
+    cout << "\n--- Executing All Queued Commands ---\n" << endl;
+    user->executeAll();
+    
+    delete room;
+    delete user;
+    delete cmd1;
+    delete cmd2;
+    delete cmd3;
+}
+
+void demonstrateIteratorPattern() {
+    printSeparator("DEMO 7: ITERATOR PATTERN");
+    
+    Dogorithm* dogRoom = new Dogorithm();
+    CtrlCat* catRoom = new CtrlCat();
+    
+    NormalUser* user = new NormalUser("MultiRoomUser");
+    
+    dogRoom->registerUser(user);
+    catRoom->registerUser(user);
+    
+    user->send("Message 1", dogRoom);
+    user->send("Message 2", dogRoom);
+    user->send("Message 3", catRoom);
+    
+    cout << "\n--- Iterating Through User's Chat Rooms ---\n" << endl;
+    auto roomIterator = user->createIterator();
+    for (roomIterator.first(); !roomIterator.isDone(); roomIterator.next()) {
+        ChatRoom* room = roomIterator.current();
+        if (room) {
+            cout << "User is in room: " << room->getRoomName() << endl;
+        }
+    }
+    
+    cout << "\n--- Iterating Through Dogorithm's Users ---\n" << endl;
+    auto userIterator = dogRoom->createUserIterator();
+    for (userIterator.first(); !userIterator.isDone(); userIterator.next()) {
+        Users* u = userIterator.current();
+        if (u) {
+            cout << "User in Dogorithm: " << u->getName() << " (" << u->getUserType() << ")" << endl;
+        }
+    }
+    
+    cout << "\n--- Iterating Through Chat History ---\n" << endl;
+    auto historyIterator = dogRoom->createChatHistoryIterator();
+    int msgCount = 0;
+    for (historyIterator.first(); !historyIterator.isDone(); historyIterator.next()) {
+        string* msg = historyIterator.current();
+        if (msg) {
+            msgCount++;
+            cout << "Message " << msgCount << ": " << *msg << endl;
+        }
+    }
+    
+    delete dogRoom;
+    delete catRoom;
+    delete user;
+}
+
+void demonstrateObserverPattern() {
+    printSeparator("DEMO 8: OBSERVER PATTERN");
+    
+    Dogorithm* room = new Dogorithm();
+    
+    NormalUser* user1 = new NormalUser("Observer1");
+    NormalUser* user2 = new NormalUser("Observer2");
+    NormalUser* user3 = new NormalUser("Observer3");
+    
+    room->registerUser(user1);
+    room->registerUser(user2);
+    room->registerUser(user3);
+    
+    cout << "\n--- Sending Message (Observers Get Notified) ---\n" << endl;
+    user1->send("This will notify all other users!", room);
+    
+    delete room;
+    delete user1;
+    delete user2;
+    delete user3;
+}
+
+void demonstrateRoomThemes() {
+    printSeparator("DEMO 9: THEMED CHAT ROOMS");
+    
+    Dogorithm* dogRoom = new Dogorithm();
+    CtrlCat* catRoom = new CtrlCat();
+    
+    NormalUser* user = new NormalUser("ThemeExplorer");
+    
+    cout << "\n--- Dogorithm Theme ---\n" << endl;
+    dogRoom->registerUser(user);
+    cout << dogRoom->getRoomTheme() << endl;
+    user->send("I love algorithms and dogs!", dogRoom);
+    
+    cout << "\n--- CtrlCat Theme ---\n" << endl;
+    catRoom->registerUser(user);
+    cout << catRoom->getRoomTheme() << endl;
+    user->send("Cats are amazing programmers!", catRoom);
+    
+    delete dogRoom;
+    delete catRoom;
+    delete user;
+}
+
+void demonstrateHistoryManagement() {
+    printSeparator("DEMO 10: HISTORY MANAGEMENT");
+    
+    Dogorithm* room = new Dogorithm();
+    AdminUser* admin = new AdminUser("HistoryAdmin");
+    NormalUser* user1 = new NormalUser("HistoryUser1");
+    NormalUser* user2 = new NormalUser("HistoryUser2");
+    
+    room->registerUser(admin);
+    room->registerUser(user1);
+    room->registerUser(user2);
+    
+    cout << "\n--- Generating Chat History ---\n" << endl;
+    user1->send("First message", room);
+    user2->send("Second message", room);
+    admin->send("Admin message", room);
+    
+    cout << "\n--- Viewing History Count ---\n" << endl;
+    cout << "Total messages in history: " << room->getChatHistory().size() << endl;
+    
+    cout << "\n--- Clearing History (Admin Function) ---\n" << endl;
+    room->clearHistory();
+    
+    cout << "\n--- History After Clear ---\n" << endl;
+    cout << "Messages remaining: " << room->getChatHistory().size() << endl;
+    
+    delete room;
+    delete admin;
+    delete user1;
+    delete user2;
+}
+
+void demonstrateCompleteScenario() {
+    printSeparator("DEMO 11: COMPLETE REAL-WORLD SCENARIO");
+    
+    cout << "\n=== Starting a New Chat Community ===\n" << endl;
+    
+    // Create rooms
+    Dogorithm* dogRoom = new Dogorithm();
+    CtrlCat* catRoom = new CtrlCat();
+    
+    // Create users
+    AdminUser* admin = new AdminUser("CommunityLeader");
+    CoAdminUser* coAdmin = new CoAdminUser("AssistantMod");
+    NormalUser* alice = new NormalUser("Alice");
+    NormalUser* bob = new NormalUser("Bob");
+    NormalUser* carol = new NormalUser("Carol");
+    
+    // Day 1: Users join
+    cout << "\n--- DAY 1: Community Launch ---\n" << endl;
+    dogRoom->registerUser(admin);
+    dogRoom->registerUser(alice);
+    dogRoom->registerUser(bob);
+    
+    admin->makeAnnouncement("Welcome to our new community!", dogRoom);
+    alice->send("Excited to be here!", dogRoom);
+    bob->send("Hello everyone!", dogRoom);
+    
+    // Day 2: More activity
+    cout << "\n--- DAY 2: Growing Community ---\n" << endl;
+    dogRoom->registerUser(coAdmin);
+    dogRoom->registerUser(carol);
+    
+    carol->send("Can someone help me with algorithms?", dogRoom);
+    coAdmin->send("I'm here to help!", dogRoom);
+    
+    // Day 3: Multi-room participation
+    cout << "\n--- DAY 3: Expanding to Multiple Rooms ---\n" << endl;
+    catRoom->registerUser(admin);
+    catRoom->registerUser(alice);
+    
+    alice->send("I love both dogs and cats!", catRoom);
+    admin->makeAnnouncement("CtrlCat room is now open!", catRoom);
+    
+    // Day 4: Moderation needed
+    cout << "\n--- DAY 4: Moderation In Action ---\n" << endl;
+    bob->send("spam spam buy now click here spam", dogRoom);
+    admin->moderateMessage("spam spam buy now", dogRoom);
+    
+    // Final stats
+    cout << "\n--- COMMUNITY STATISTICS ---\n" << endl;
+    cout << dogRoom->getRoomStats() << endl;
+    cout << "\n" << catRoom->getRoomStats() << endl;
+    
+    // Cleanup
+    delete dogRoom;
+    delete catRoom;
+    delete admin;
+    delete coAdmin;
+    delete alice;
+    delete bob;
+    delete carol;
+}
+
+void runCat(){
+    cout << "=== CTRLCAT 100% COVERAGE TEST ===" << endl;
+
+    // Test 1: Constructor
+    cout << "--- Test 1: Constructor ---" << endl;
+    {
+        CtrlCat room;
+        cout << room.getRoomName() << endl;
+        cout << room.getRoomTheme() << endl;
+    }
+    cout << endl;
+
+    // Test 2: Destructor
+    cout << "--- Test 2: Destructor ---" << endl;
+    {
+        CtrlCat* room = new CtrlCat();
+        delete room; // Hits destructor lines 16-18
+    }
+    cout << endl;
+
+    // Test 3: registerUser with null
+    cout << "--- Test 3: Register Null ---" << endl;
+    {
+        CtrlCat room;
+        room.registerUser(nullptr); // Hits early return
+    }
+    cout << endl;
+
+    // Test 4: registerUser with valid user (not exists)
+    cout << "--- Test 4: Register Valid User ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user); // Hits exists = false path
+    }
+    cout << endl;
+
+    // Test 5: registerUser with duplicate user (exists)
+    cout << "--- Test 5: Register Duplicate ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        room.registerUser(&user); // Hits exists = true path
+    }
+    cout << endl;
+
+    // Test 6: sendMessage with valid params
+    cout << "--- Test 6: Send Valid Message ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        string msg = "Hello CtrlCat";
+        room.sendMessage(&msg, &user);
+    }
+    cout << endl;
+
+    // Test 7: sendMessage with null message
+    cout << "--- Test 7: Send Null Message ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.sendMessage(nullptr, &user); // Doesn't enter if block
+    }
+    cout << endl;
+
+    // Test 8: sendMessage with null user
+    cout << "--- Test 8: Send Null User ---" << endl;
+    {
+        CtrlCat room;
+        string msg = "test";
+        room.sendMessage(&msg, nullptr); // Doesn't enter if block
+    }
+    cout << endl;
+
+    // Test 9: removeUser with null
+    cout << "--- Test 9: Remove Null User ---" << endl;
+    {
+        CtrlCat room;
+        room.removeUser(nullptr);
+    }
+    cout << endl;
+
+    // Test 10: removeUser with Admin
+    cout << "--- Test 10: Remove Admin ---" << endl;
+    {
+        CtrlCat room;
+        AdminUser admin("Admin");
+        NormalUser other("Other");
+        
+        room.registerUser(&admin);
+        room.registerUser(&other);
+        
+        room.removeUser(&admin); // Hits Admin branch
+    }
+    cout << endl;
+
+    // Test 11: removeUser with CoAdmin
+    cout << "--- Test 11: Remove CoAdmin ---" << endl;
+    {
+        CtrlCat room;
+        CoAdminUser coadmin("CoAdmin");
+        NormalUser other("Other");
+        
+        room.registerUser(&coadmin);
+        room.registerUser(&other);
+        
+        room.removeUser(&coadmin); // Hits Co-Admin branch
+    }
+    cout << endl;
+
+    // Test 12: removeUser with Normal user
+    cout << "--- Test 12: Remove Normal User ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("Normal");
+        NormalUser other("Other");
+        
+        room.registerUser(&user);
+        room.registerUser(&other);
+        
+        room.removeUser(&user); // Hits else branch
+    }
+    cout << endl;
+
+    // Test 13: isCatThemed with cat words
+    cout << "--- Test 13: Cat Themed Messages ---" << endl;
+    {
+        CtrlCat room;
+        
+        cout << "cat: " << room.isCatThemed("I love my cat") << endl;
+        cout << "kitten: " << room.isCatThemed("cute kitten") << endl;
+        cout << "kitty: " << room.isCatThemed("hello kitty") << endl;
+        cout << "meow: " << room.isCatThemed("meow meow") << endl;
+        cout << "purr: " << room.isCatThemed("purring sound") << endl;
+        cout << "claw: " << room.isCatThemed("sharp claws") << endl;
+        cout << "whisker: " << room.isCatThemed("cat whiskers") << endl;
+        cout << "tail: " << room.isCatThemed("fluffy tail") << endl;
+        cout << "fur: " << room.isCatThemed("soft fur") << endl;
+        cout << "feline: " << room.isCatThemed("feline friend") << endl;
+        cout << "tabby: " << room.isCatThemed("tabby cat") << endl;
+        cout << "siamese: " << room.isCatThemed("siamese breed") << endl;
+        cout << "persian: " << room.isCatThemed("persian cat") << endl;
+        cout << "maine coon: " << room.isCatThemed("maine coon") << endl;
+        cout << "sphinx: " << room.isCatThemed("sphinx cat") << endl;
+        cout << "lynx: " << room.isCatThemed("wild lynx") << endl;
+        cout << "cougar: " << room.isCatThemed("mountain cougar") << endl;
+        cout << "tiger: " << room.isCatThemed("tiger stripes") << endl;
+        cout << "lion: " << room.isCatThemed("king lion") << endl;
+        cout << "panther: " << room.isCatThemed("black panther") << endl;
+        
+        cout << "not cat: " << room.isCatThemed("normal message") << endl;
+    }
+    cout << endl;
+
+    // Test 14: reactToCatMessage with null user
+    cout << "--- Test 14: React Null User ---" << endl;
+    {
+        CtrlCat room;
+        room.reactToCatMessage("test", nullptr); // Early return
+    }
+    cout << endl;
+
+    // Test 15: reactToCatMessage with cat/kitten/meow
+    cout << "--- Test 15: React Cat Messages ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.reactToCatMessage("I love cats", &user);
+        room.reactToCatMessage("cute kitten", &user);
+        room.reactToCatMessage("meow meow", &user);
+    }
+    cout << endl;
+
+    // Test 16: reactToCatMessage with dog/puppy
+    cout << "--- Test 16: React Dog Messages ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.reactToCatMessage("I have a dog", &user);
+        room.reactToCatMessage("cute puppy", &user);
+    }
+    cout << endl;
+
+    // Test 17: reactToCatMessage with purr/whisker
+    cout << "--- Test 17: React Purr/Whisker ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.reactToCatMessage("purring softly", &user);
+        room.reactToCatMessage("long whiskers", &user);
+    }
+    cout << endl;
+
+    // Test 18: reactToCatMessage with other message
+    cout << "--- Test 18: React Other Message ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.reactToCatMessage("just a normal message", &user); // Hits else
+    }
+    cout << endl;
+
+    // Test 19: Case insensitivity in reactions
+    cout << "--- Test 19: Case Insensitivity ---" << endl;
+    {
+        CtrlCat room;
+        NormalUser user("User1");
+        room.registerUser(&user);
+        
+        room.reactToCatMessage("CAT KITTEN MEOW", &user);
+        room.reactToCatMessage("DOG PUPPY", &user);
+        room.reactToCatMessage("PURR WHISKER", &user);
+        
+        cout << "CAT: " << room.isCatThemed("CAT") << endl;
+        cout << "MeOw: " << room.isCatThemed("MeOw") << endl;
+    }
+    cout << endl;
+
+    cout << "=== CTRLCAT 100% COVERAGE COMPLETE ===" << endl;
+}
+
 void runTest(){
     cout << "=== FINAL 100% COVERAGE TEST ===" << endl;
     cout << endl;
+
+    runCat();
 
     // Test 1: Command constructors (for .h file coverage)
     cout << "--- Test 1: Command Constructors ---" << endl;
@@ -926,157 +1523,25 @@ void runTest(){
 }
 
 void runDemo() {
-    cout << " Automated Demo: Chat System Showcase " << endl;
-
-    // 1) Create two themed chat rooms
-    CtrlCat catRoom;
-    Dogorithm dogRoom;
-    cout << "Created rooms: " << catRoom.getRoomName() << " and " << dogRoom.getRoomName() << endl;
-
-    // 2) Create users (stack objects, as requested)
-    AdminUser    admin("Alice");
-    CoAdminUser  coadmin("Bob");
-    NormalUser   user1("Charlie");
-    NormalUser   user2("Dana");
-
-    // 3) Register users to rooms
-    catRoom.registerUser(&admin);
-    catRoom.registerUser(&coadmin);
-    catRoom.registerUser(&user1);
-    catRoom.registerUser(&user2);
-
-    dogRoom.registerUser(&admin);
-    dogRoom.registerUser(&coadmin);
-    dogRoom.registerUser(&user1);
-    dogRoom.registerUser(&user2);
-
-    // Also link rooms to users (so their room iterators have content)
-    cout<<"adding to rooms \n "<<endl;
-    admin.addChatRoom(&catRoom);
-    admin.addChatRoom(&dogRoom);
-    coadmin.addChatRoom(&catRoom);
-    coadmin.addChatRoom(&dogRoom);
-    user1.addChatRoom(&catRoom);
-    user1.addChatRoom(&dogRoom);
-    user2.addChatRoom(&catRoom);
-    user2.addChatRoom(&dogRoom);
-
-    // 4) Iterate users in catRoom (UsersIterator)
-    {
-        cout << "\n-- Users in " << catRoom.getRoomName() << " --" << endl;
-        UsersIterator uit = catRoom.createUserIterator();
-        for (uit.first(); !uit.isDone(); uit.next()) {
-            Users* u = uit.current();
-            if (u) {
-                cout << "User[" << uit.getIndex() << "]: " << u->getName() << " (" << u->getUserType() << ")" << endl;
-            }
-        }
-    }
-
-    // 5) Queue commands (Send + Save) and then execute them for each user
-    //    We'll demonstrate both rooms to show command execution and room-specific behavior.
-    {
-        cout << "\n-- Queue and execute commands in " << catRoom.getRoomName() << " --" << endl;
-
-        // Prepare messages
-        string m1 = "hello cats!";
-        string m2 = "this will be saved to history";
-        string m3 = "[ADMIN] system notice for everyone";
-        string m4 = "[CO-ADMIN] reminder: be nice";
-
-        // Create command objects (stack) and add to each user's command queue
-        SendMessageCommand u1_send_cat(m1, &catRoom, &user1);
-        SaveMessageCommand u1_save_cat(m2, &catRoom, &user1);
-        user1.addCommand(&u1_send_cat);
-        user1.addCommand(&u1_save_cat);
-
-        SendMessageCommand u2_send_cat(m1, &catRoom, &user2);
-        SaveMessageCommand u2_save_cat(m2, &catRoom, &user2);
-        user2.addCommand(&u2_send_cat);
-        user2.addCommand(&u2_save_cat);
-
-        SendMessageCommand admin_send_cat(m3, &catRoom, &admin);
-        SaveMessageCommand admin_save_cat(m2, &catRoom, &admin);
-        admin.addCommand(&admin_send_cat);
-        admin.addCommand(&admin_save_cat);
-
-        SendMessageCommand co_send_cat(m4, &catRoom, &coadmin);
-        SaveMessageCommand co_save_cat(m2, &catRoom, &coadmin);
-        coadmin.addCommand(&co_send_cat);
-        coadmin.addCommand(&co_save_cat);
-
-        // Show commands queued for one user via CommandIterator (before execution)
-        {
-            cout << "Commands queued for " << user1.getName() << ":" << endl;
-            CommandIterator cit = user1.createcommandIterator();
-            for (cit.first(); !cit.isDone(); cit.next()) {
-                Command* c = cit.current();
-                cout << "  Command index " << cit.getIndex() << (c ? "" : " (null)") << endl;
-            }
-        }
-
-        // Execute all commands per user
-        admin.executeAll();
-        coadmin.executeAll();
-        user1.executeAll();
-        user2.executeAll();
-    }
-
-    // 6) Iterate chat history in catRoom (ChatHistoryIterator)
-    {
-        cout << "\n-- Chat history in " << catRoom.getRoomName() << " --" << endl;
-        ChatHistoryIterator hit = catRoom.createChatHistoryIterator();
-        for (hit.first(); !hit.isDone(); hit.next()) {
-            string* msg = hit.current();
-            cout << "History[" << hit.getIndex() << "]: " << (msg ? *msg : string("<null>")) << endl;
-        }
-        cout << "\nRoom stats:\n" << catRoom.getRoomStats() << endl;
-    }
-
-    // 7) Demonstrate direct sending on dogRoom using Users::send (bypassing command queue)
-    {
-        cout << "\n-- Direct sends in " << dogRoom.getRoomName() << " --" << endl;
-        admin.send("[ADMIN] please welcome new members", &dogRoom);
-        coadmin.send("[CO-ADMIN] enjoy dog memes!", &dogRoom);
-        user1.send("woof woof hello dog lovers", &dogRoom);
-        user2.send("dogs > cats? discuss!", &dogRoom);
-
-        // Iterate users in dogRoom
-        cout << "\nUsers in " << dogRoom.getRoomName() << ":" << endl;
-        UsersIterator uit2 = dogRoom.createUserIterator();
-        for (uit2.first(); !uit2.isDone(); uit2.next()) {
-            Users* u = uit2.current();
-            if (u) {
-                cout << "User[" << uit2.getIndex() << "]: " << u->getName() << " (" << u->getUserType() << ")" << endl;
-            }
-        }
-
-        // Iterate chat history of dogRoom
-        cout << "\nHistory of " << dogRoom.getRoomName() << ":" << endl;
-        ChatHistoryIterator hit2 = dogRoom.createChatHistoryIterator();
-        for (hit2.first(); !hit2.isDone(); hit2.next()) {
-            string* msg = hit2.current();
-            cout << "History[" << hit2.getIndex() << "]: " << (msg ? *msg : string("<null>")) << endl;
-        }
-    }
-
-    // 8) For a user, iterate their joined rooms (ChatRoomIterator)
-    {
-        cout << "\n-- Rooms joined by " << admin.getName() << " --" << endl;
-        ChatRoomIterator rit = admin.createIterator();
-        for (rit.first(); !rit.isDone(); rit.next()) {
-            ChatRoom* r = rit.current();
-            cout << "Room[" << rit.getIndex() << "]: " << (r ? r->getRoomName() : string("<null>")) << endl;
-        }
-    }
-
-    cout << "\n=== Demo complete ===" << endl;
+    demonstrateUserCreation();
+        demonstrateChatRoomCreation();
+        demonstrateUserRegistration();
+        demonstrateMessaging();
+        demonstrateAdminFunctions();
+        demonstrateCommandPattern();
+        //demonstrateIteratorPattern();
+        demonstrateObserverPattern();
+        demonstrateRoomThemes();
+        demonstrateHistoryManagement();
+        demonstrateCompleteScenario();
+        
+        printSeparator("ALL DEMOS COMPLETED SUCCESSFULLY!");
 }
 
 
 int main() {
     runDemo();
-    //runTest();
+    runTest();
     return 0;
 }
 
