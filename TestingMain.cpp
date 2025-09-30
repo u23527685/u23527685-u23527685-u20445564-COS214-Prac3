@@ -28,10 +28,10 @@
 using namespace std;
 
 void printSeparator(const string& title = "") {
-    cout << "\n" << string(70, '=') << endl;
+    cout << "\n" << string(70, '-') << endl;
     if (!title.empty()) {
         cout << "  " << title << endl;
-        cout << string(70, '=') << endl;
+        cout << string(70, '-') << endl;
     }
 }
 
@@ -334,43 +334,75 @@ void demonstrateCompleteScenario() {
     // Create rooms
     Dogorithm* dogRoom = new Dogorithm();
     CtrlCat* catRoom = new CtrlCat();
+
+    cout<<"\n admin getting created"<<endl;
     
     // Create users
     AdminUser* admin = new AdminUser("CommunityLeader");
+    cout<<"\n coadmin getting created"<<endl;
     CoAdminUser* coAdmin = new CoAdminUser("AssistantMod");
+    cout<<"\n alice getting created"<<endl;
     NormalUser* alice = new NormalUser("Alice");
+    cout<<"\n bob getting created"<<endl;
     NormalUser* bob = new NormalUser("Bob");
+    cout<<"\n carol getting created"<<endl;
     NormalUser* carol = new NormalUser("Carol");
     
     // Day 1: Users join
     cout << "\n--- DAY 1: Community Launch ---\n" << endl;
+    cout<<"\n register admin"<<endl;
     dogRoom->registerUser(admin);
+
+    cout<<"\n register alice"<<endl;
     dogRoom->registerUser(alice);
+
+    cout<<"\n register bob"<<endl;
     dogRoom->registerUser(bob);
     
+    cout<<"\n admin announcement"<<endl;
     admin->makeAnnouncement("Welcome to our new community!", dogRoom);
+
+    cout<<"\n alice message"<<endl;
     alice->send("Excited to be here!", dogRoom);
+
+    cout<<"\n bob message"<<endl;
     bob->send("Hello everyone!", dogRoom);
     
     // Day 2: More activity
     cout << "\n--- DAY 2: Growing Community ---\n" << endl;
+    cout<<"\n register coadmin"<<endl;
     dogRoom->registerUser(coAdmin);
+
+    cout<<"\n register carol"<<endl;
     dogRoom->registerUser(carol);
     
+    cout<<"\n carol message"<<endl;
     carol->send("Can someone help me with algorithms?", dogRoom);
+
+    cout<<"\n  coadmin message"<<endl;
     coAdmin->send("I'm here to help!", dogRoom);
     
     // Day 3: Multi-room participation
     cout << "\n--- DAY 3: Expanding to Multiple Rooms ---\n" << endl;
+    cout<<"\n register admin"<<endl;
     catRoom->registerUser(admin);
+
+    cout<<"\n register alice"<<endl;
     catRoom->registerUser(alice);
     
+    cout<<"\n  alice send message"<<endl;
     alice->send("I love both dogs and cats!", catRoom);
+
+    cout<<"\n  admin anouncement"<<endl;
     admin->makeAnnouncement("CtrlCat room is now open!", catRoom);
     
     // Day 4: Moderation needed
     cout << "\n--- DAY 4: Moderation In Action ---\n" << endl;
+
+    cout<<"\n bob send spam"<<endl;
     bob->send("spam spam buy now click here spam", dogRoom);
+
+    cout<<"\n admin deal with spam"<<endl;
     admin->moderateMessage("spam spam buy now", dogRoom);
     
     // Final stats
@@ -1540,8 +1572,9 @@ void runDemo() {
 
 
 int main() {
-    runDemo();
-    runTest();
+    //runDemo();
+    //runTest();
+    demonstrateCompleteScenario();
     return 0;
 }
 

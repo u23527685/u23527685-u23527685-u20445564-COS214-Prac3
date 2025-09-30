@@ -30,12 +30,19 @@ void Users::addChatRoom(ChatRoom *room) {
     if (!room) return;
 
     bool exists = false;
-    for (size_t i = 0; i < chatRooms.size(); ++i) {
-        if (chatRooms[i] == room) {
-            exists = true;
-            break;
+    auto userIt = createIterator();
+    for (userIt.first(); !userIt.isDone(); userIt.next()) {
+        ChatRoom* u = userIt.current();
+        if (u && u->getRoomName()==room->getRoomName()) {
+            try{
+                chatRooms.erase(chatRooms.begin()+userIt.getIndex());
+            }catch (...) {
+                cout << "Failed to remove room " << u->getRoomName() << endl;
+            }
+            
         }
     }
+    
 
     if (!exists) {
         chatRooms.push_back(room);
@@ -46,14 +53,16 @@ void Users::addChatRoom(ChatRoom *room) {
 // Remove a chat room from the user's list
 void Users::removeChatRoom(ChatRoom *room) {
     if (!room) return;
-    for (size_t i = 0; i < chatRooms.size(); ++i) {
-        if (chatRooms[i] == room) {
-            // Remove element manually
-            for (size_t j = i; j < chatRooms.size() - 1; ++j) {
-                chatRooms[j] = chatRooms[j + 1];
+    auto userIt = createIterator();
+    for (userIt.first(); !userIt.isDone(); userIt.next()) {
+        ChatRoom* u = userIt.current();
+        if (u && u->getRoomName()==room->getRoomName()) {
+            try{
+                chatRooms.erase(chatRooms.begin()+userIt.getIndex());
+            }catch (...) {
+                cout << "Failed to remove room " << u->getRoomName() << endl;
             }
-            chatRooms.pop_back();
-            break;
+            
         }
     }
 }

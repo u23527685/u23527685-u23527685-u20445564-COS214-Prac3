@@ -49,6 +49,8 @@ void ChatRoom::registerUser(Users* user) {
     
     // Add this room to user's room list
     user->addChatRoom(this);
+
+    users.push_back(user);
     
     // Save join message to history
     string joinMessage = user->getName() + " (" + user->getUserType() + ") joined the room";
@@ -80,7 +82,7 @@ void ChatRoom::sendMessage(string* message, Users* fromUser) {
     auto userIt = createUserIterator();
     for (userIt.first(); !userIt.isDone(); userIt.next()) {
         Users* u = userIt.current();
-        if (u && u!=fromUser) {
+        if (u && u->getName()!=fromUser->getName()) {
             try{
                 u->receive(*message, fromUser, this);
                 deliveredCount++;
@@ -251,7 +253,7 @@ int ChatRoom::findUserIndex(Users* user) const {
     auto userIt= createUserIterator();
     for (userIt.first(); !userIt.isDone(); userIt.next()) {
         Users* u = userIt.current();
-        if (u&&u==user) {
+        if (u&&u->getName()==user->getName()) {
             return (int) userIt.getIndex();
         }
     }

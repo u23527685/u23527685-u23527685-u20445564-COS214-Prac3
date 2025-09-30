@@ -243,20 +243,13 @@ void AdminUser::makeAnnouncement(const string &announcement, ChatRoom *room)
               << string(50, '=') << endl;
     cout << "Admin " << name << " making OFFICIAL ANNOUNCEMENT" << endl;
     cout << " Room: " << room->getRoomName() << endl;
-    cout << " Recipients: " << room->getUsers().size() << " users" << endl;
+    cout << " Recipients: " << (int)(room->getUsers()).size() << " users" << endl;
     cout << " Message: " << announcement << endl;
     cout << string(50, '=') << "\n"
               << endl;
 
     // Send announcement to all users with special formatting
     send(formattedAnnouncement,room);
-
-    // Save to history with special formatting
-    string announcementLog = "[ OFFICIAL] Admin " + name + " announced: " + announcement;
-    send(announcementLog,room);
-
-    cout << "Official announcement delivered by Admin " << name << endl;
-    cout << "Announcement logged in room history" << endl;
 }
 
 // Private helper methods for enhanced functionality
